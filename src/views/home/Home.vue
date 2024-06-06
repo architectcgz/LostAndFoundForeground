@@ -200,10 +200,7 @@
               <hr class="bg-primary" />
               <ul class="social-icons list-unstyled">
                 <li>
-                  <a class="facebook grow" href="https://facebook.com" target="_blank">QQ</a>
-                </li>
-                <li>
-                  <a class="instagram grow" href="https://instagram.com" target="_blank">Github</a>
+                  <a class="instagram grow" href="https://github.com/architectcgz/LostAndFoundBackground" target="_blank">Github</a>
                 </li>
               </ul>
             </div>
