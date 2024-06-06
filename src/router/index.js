@@ -39,7 +39,22 @@ const router = createRouter({
         title: "用户注册"
       },
       component: UserRegister
+    },
+    {
+      path: '/lost/form',
+      name: 'lostForm',
+      meta:{
+        title: "填写失物表"
+      }
+    },
+    {
+      path: '/found/form',
+      name: 'foundForm',
+      meta:{
+        title: "填写招领表"
+      }
     }
+
   ]
 })
 //router设置页面标题

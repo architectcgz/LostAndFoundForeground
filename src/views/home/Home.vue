@@ -119,8 +119,8 @@
               <ul class="my-3">
                 <li class="text-left mb-3">招领信息显示在这里</li>
                 <li class="text-left mb-3">尽快填写信息，你可以尽早帮到失主</li>
-                <li class="text-left mb-3">The involvement of faculty will be kept as minimum as possible by our side, so that this might also help in student's ability to build connections.</li>
-                <li class="text-left mb-5">If nobody comes forward for the property you found, only then the faculty will get involved.</li>
+                <li class="text-left mb-3">我们会尽可能减少教师的参与，这样可能有助于学生建立联系。</li>
+                <li class="text-left mb-5">如果没有人来索要你找到的物品，最后老师会介入</li>
               </ul>
               <div class="shrink">
                 <router-link class="learn-more px-5" to="/found" >前往</router-link>
@@ -200,13 +200,10 @@
               <hr class="bg-primary" />
               <ul class="social-icons list-unstyled">
                 <li>
-                  <a class="facebook grow" href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                  <a class="facebook grow" href="https://facebook.com" target="_blank">QQ</a>
                 </li>
                 <li>
-                  <a class="instagram grow" href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                </li>
-                <li>
-                  <a class="linkedin grow" href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                  <a class="instagram grow" href="https://instagram.com" target="_blank">Github</a>
                 </li>
               </ul>
             </div>
@@ -214,9 +211,9 @@
               <h4 class="text-dark">联系方式</h4>
               <hr class="bg-primary" />
               <ul class="list-unstyled quick-links">
-                <li><a href="arccgz@gmail.com"><i class="fa fa-envelope"></i> Email: arccgz@gmail.com</a></li>
-                <li><a href="#"><i class="fa fa-phone"></i> Phone: +123 456 7890</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> HFUT</a></li>
+                <li><a href="arccgz@gmail.com"> Email: arccgz@gmail.com</a></li>
+                <li><a href="#"> Phone: +123 456 7890</a></li>
+                <li><a href="#"> HFUT</a></li>
               </ul>
             </div>
           </div>
