@@ -2,8 +2,11 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
+
+import '/src/assets/js/jquery-3.7.1.min.js';
+import '/src/assets/bootstrap-4.6.2-dist/js/bootstrap.min.js';
+import '/src/assets/bootstrap-4.6.2-dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css'
 
 import App from './App.vue'
 import router from './router'
