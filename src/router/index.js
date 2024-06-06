@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UserForgetPwd from '../views/user/UserForgetPwd.vue'
 import Home from "@/views/home/Home.vue";
 import UserRegister from "@/views/user/UserRegister.vue";
+import LostForm from "@/views/lost/LostForm.vue";
+import FoundForm from "@/views/found/FoundForm.vue";
 
 
 const router = createRouter({
@@ -45,14 +47,16 @@ const router = createRouter({
       name: 'lostForm',
       meta:{
         title: "填写失物表"
-      }
+      },
+      component:LostForm
     },
     {
       path: '/found/form',
       name: 'foundForm',
       meta:{
         title: "填写招领表"
-      }
+      },
+      component:FoundForm
     }
 
   ]
