@@ -3,10 +3,11 @@
     <img src="@/assets/photos/R2.jpg" width="100%" height="100%" alt="background" />
   </div>
   <div class="container">
-    <h2>注册/找回密码</h2>
+    <h2>注册</h2>
     <form @submit.prevent="handleSubmit">
-      <label for="phone">电话号：</label>
+
       <div class="phone-input-wrapper">
+        <label for="phone">电话号：</label>
         <input
             type="tel"
             v-model="form.phone"
@@ -23,9 +24,9 @@
             :disabled="isSendingCode"
         />
         <span class="countdown-span" v-if="isSendingCode">{{ codeButtonText }}</span>
+
       </div>
       <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
-
       <label for="code">验证码：</label>
       <input
           type="text"
@@ -59,14 +60,12 @@
       <div v-if="submitMessage" class="submit-message">{{ submitMessage }}</div>
     </form>
     <div class="actions">
-      <router-link to="/user/login" class="button">返回登陆</router-link>
-      <input
+      <a
           type="submit"
-          name="info"
-          value="注册"
-          :disabled="isSubmitting"
           class="button"
-      />
+          style="margin-right: 40%; color: white"
+      >注册</a>
+      <router-link to="/user/login" class="button">返回登陆</router-link>
     </div>
   </div>
 </template>
@@ -76,6 +75,7 @@ import axios from 'axios';
 import { isPasswordValid, isPhoneValid } from '@/utils/validateUtils.js';
 import { baseUrl } from "@/constants/globalConstants.js";
 import router from "@/router/index.js";
+import {isStringNotEmpty} from "@/utils/stringUtils.js";
 
 export default {
   data() {
@@ -91,7 +91,6 @@ export default {
       passwordError: '',
       repeatPasswordError: '',
       submitMessage: '',
-      isSubmitting: false,
       isSendingCode: false,
       codeButtonText: '发送验证码',
       timer: null,
@@ -112,13 +111,20 @@ export default {
       this.validatePhone();
       this.validatePassword();
       this.validateRepeatPassword();
-
-      if (this.phoneError || this.passwordError || this.repeatPasswordError) {
+      //信息有错误
+      if (this.phoneError!=='' || this.passwordError!=='' || this.repeatPasswordError!=='') {
+        console.log("信息有错误!");
+        return;
+      }
+      if(!(isStringNotEmpty(this.form.phone)&&
+          isStringNotEmpty(this.form.code)&&
+          isStringNotEmpty(this.form.pwd)&&
+          isStringNotEmpty(this.form.repeatPwd))){
+        console.log("信息不完整!");
         return;
       }
 
-      this.isSubmitting = true;
-
+      console.log("点击了注册按钮")
       try {
         const response = await axios.post(baseUrl + '/user/register', this.form);
         this.submitMessage = response.data.message;
@@ -137,7 +143,6 @@ export default {
       } catch (error) {
         this.submitMessage = error.response?.data?.message || '注册失败';
       } finally {
-        this.isSubmitting = false;
       }
     },
     async sendCode() {
@@ -194,6 +199,7 @@ export default {
 
 .container {
   position: absolute;
+  margin-right: 50%;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -209,7 +215,7 @@ h2 {
 
 .container label {
   display: inline-block;
-  width: 80px;
+  width: 20%;
   text-align: left;
 }
 
@@ -223,8 +229,8 @@ h2 {
 }
 
 input[type="text"], input[type="tel"], input[type="password"] {
-  width: 60%;
-  padding: 10px 0px 10px 10px;
+  width: 40%;
+  padding: 10px 0 10px 10px;
   margin-top: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -234,8 +240,9 @@ input[type="text"], input[type="tel"], input[type="password"] {
 
 input[type="submit"], input[type="button"] {
   width: 80px;
-  height: 30px;
-  padding: 10px 0px 10px 0px;
+  height: 44px;
+  margin-bottom: 10px;
+  padding: 10px 0 10px 0;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -254,7 +261,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
 }
 
 input[type="submit"][disabled], input[type="button"][disabled] {
-  background-color: #666;
+  background-color: gray;
 }
 
 .is-invalid {
@@ -281,16 +288,15 @@ input[type="submit"][disabled], input[type="button"][disabled] {
 
 .actions {
   display: flex;
-  justify-content: space-between;
+  justify-content : left;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .button {
   display: inline-block;
   width: 80px;
   height: 40px;
-  line-height: 40px;
   background-color: #007bff;
   color: white;
   text-align: center;
@@ -300,7 +306,9 @@ input[type="submit"][disabled], input[type="button"][disabled] {
   text-decoration: none;
   transition: background-color 0.3s;
 }
-
+.button:last-child {
+  margin-right: 0;
+}
 .button:hover {
   background-color: #0056b3;
 }

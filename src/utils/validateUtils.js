@@ -7,3 +7,4 @@ export function isPasswordValid(password) {
 export function isPhoneValid(phone) {
     return phoneRegex.test(phone);
 }
+
