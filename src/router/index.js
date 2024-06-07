@@ -1,18 +1,15 @@
 import UserLogin from '@/views/user/UserLogin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import UserForgetPwd from '../views/user/UserForgetPwd.vue'
-import UserRegister from "@/views/user/UserRegister.vue";
-import LostForm from "@/views/lost/LostForm.vue";
-import FoundForm from "@/views/found/FoundForm.vue";
 import Home from "@/views/home/Home.vue";
-
+import UserRegister from "@/views/user/UserRegister.vue";
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path:'/',
+      path:'/home',
       name:'home',
       meta:{
         title: '校园失物招领管理'
@@ -48,16 +45,14 @@ const router = createRouter({
       name: 'lostForm',
       meta:{
         title: "填写失物表"
-      },
-      component:LostForm
+      }
     },
     {
       path: '/found/form',
       name: 'foundForm',
       meta:{
         title: "填写招领表"
-      },
-      component:FoundForm
+      }
     }
 
   ]

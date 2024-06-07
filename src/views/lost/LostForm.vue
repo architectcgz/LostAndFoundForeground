@@ -1,59 +1,64 @@
 <template>
   <main>
     <section>
-      <div class="container" id="main-container">
-        <div class="image">
-          <img src="../images/lost-2.jpg" alt="丢失物品图片">
-        </div>
-
+      <div class="background">
+        <img src="@/assets/photos/LostForm.png" width="130%" height="120%" alt="background" />
+      </div>
         <div class="container p-5 mt-5" id="form-container">
           <h1 class="text-center">丢失了东西？</h1>
           <h3 class="text-center">帮助我们来帮助您！</h3>
           <form class="mt-4" @submit.prevent="submitForm">
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">姓名*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">姓名*</span>
               </div>
-              <input type="text" class="form-control" placeholder="请输入您的姓名" v-model="form.name">
+              <input type="text" class="form-control" v-model="form.name" placeholder="请输入姓名" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">邮箱*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default" style="color: white; text-align: center;vertical-align: center">电子邮箱*</span>
               </div>
-              <input type="email" class="form-control" placeholder="请输入您的邮箱" v-model="form.email">
+              <input type="email" class="form-control" v-model="form.email" placeholder="请输入电子邮箱" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">物品名称*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">物品*</span>
               </div>
-              <input type="text" class="form-control" placeholder="请输入物品名称" v-model="form.itemName">
+              <input type="text" class="form-control" v-model="form.item" placeholder="请输入物品名称" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">丢失地点</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">地点</span>
               </div>
-              <input type="text" placeholder="如果记得，请输入" class="form-control" v-model="form.location">
+              <input type="text" class="form-control" v-model="form.location" placeholder="如果记得请填写地点" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">日期*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">图片*</span>
+                <input id="file-upload" type="file" style="display: none;"/>
               </div>
-              <input type="date" class="form-control" v-model="form.date">
+              <input type="file" class="form-control"  placeholder="上传图片" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">日期*</span>
+              </div>
+              <input type="date" class="form-control" v-model="form.date" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-primary">物品描述*</span>
               </div>
-              <textarea class="form-control" placeholder="例如：它是黑色的…" v-model="form.description"></textarea>
+              <textarea class="form-control" v-model="form.description" placeholder="请描述物品特征…" aria-label="With textarea"></textarea>
             </div>
             <div class="input-group mb-5">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">奖励</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">奖励</span>
               </div>
-              <input type="text" placeholder="非必需" class="form-control" v-model="form.reward">
+              <input type="text" class="form-control" v-model="form.reward" placeholder="非必填" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="form-check mb-5">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="form.agree">
+              <input type="checkbox" class="form-check-input" v-model="form.terms" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">同意条款和条件</label>
             </div>
             <div class="submit-button text-center">
@@ -61,157 +66,37 @@
             </div>
           </form>
         </div>
-      </div>
+
     </section>
   </main>
 </template>
 
 <script>
 export default {
+  name: 'LostItemForm',
   data() {
     return {
       form: {
         name: '',
         email: '',
-        itemName: '',
+        item: '',
         location: '',
         date: '',
         description: '',
         reward: '',
-        agree: false
+        terms: false
       }
     };
   },
   methods: {
     submitForm() {
-      console.log("表单已提交", this.form);
-      alert('表单已成功提交！请查看控制台获取数据。');
+      console.log('Form submitted:', this.form);
+      // 实现表单提交逻辑，可能需要调用API等
     }
   }
-};
+}
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.navbar {
-  background: #030027;
-  padding: 1rem 8rem;
-  z-index: 1000;
-}
-
-.navbar .navbar-brand {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: 'Monoton', cursive;
-}
-
-.navbar .navbar-brand:hover {
-  color: #caac00;
-}
-ul li {
-  margin: 0px 10px;
-}
-
-#navbarSupportedContent>ul>li:nth-child(n)>a {
-  color: #fff;
-  font-size: 1.1rem;
-  padding: 0 0.8rem;
-  cursor: pointer;
-}
-
-#navbarSupportedContent>ul>li:nth-child(n)>a:hover {
-  color: #caac00;
-}
-
-.signin {
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.signin:hover {
-  color: #caac00;
-}
-
-.grow {
-  transition: all 0.3s;
-}
-
-.grow:hover {
-  transform: scale(1.2);
-}
-
-#navbarSupportedContent>button:hover {
-  background: rgb(22, 138, 113);
-}
-
-#form-container {
-  max-width: 900px;
-  width: 100%;
-  background-color: white;
-}
-
-.input-group-text {
-  color: #ffffff;
-  letter-spacing: 1px;
-  font-family: 'Montserrat';
-}
-
-h1, h3 {
-  color: #030027;
-}
-
-.image {
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-img {
-  width: 100%;
-}
-
-#main-container {
-  max-width: 80%;
-  min-height: 100vh;
-  display: flex;
-}
-
-footer small {
-  word-spacing: 1px;
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.616);
-  margin-left: 10em;
-
-  cursor: pointer;
-}
-
-small span:hover {
-  color: white;
-}
-
-.brand a {
-  font-family: 'Monoton', cursive;
-  color: rgba(255, 255, 255, 0.582);
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.brand a:hover {
-  color: white;
-}
-
-#sticky-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+@import "/src/assets/css/lostForm.css";
 </style>
