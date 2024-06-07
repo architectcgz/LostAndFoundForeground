@@ -12,7 +12,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path:'/home',
+      path:'/',
       name:'home',
       meta:{
         title: '校园失物招领管理'
