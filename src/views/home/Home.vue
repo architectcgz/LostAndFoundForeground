@@ -58,7 +58,7 @@
             可以在这里帮助它找到失主!
           </p>
           <div class="shrink">
-            <a class="learn-more" href="forms/register.html">现在注册</a>
+            <router-link to="/user/register" class="learn-more">现在注册</router-link>
           </div>
         </div>
 
@@ -89,12 +89,22 @@
             <p class="mb-5">
               我们要通过帮助学生找回在学堂/宿舍区域丢失的宝贵物品来减轻寻找失物的压力。<br />
               这里有两个部分
-              <b>一个是<a href="forms/lostForm.html">失物</a></b> 部分，另一个是
-              <b><a href="forms/foundForm.html">招领</a></b> 部分. 你可以告诉其他同学你丢失的宝贵物品，向他们寻求帮助。 <br />
+              <b>一个是<a>
+                <router-link to="/lost">
+                  失物
+                </router-link>
+              </a></b> 部分，另一个是
+              <b><a>
+                <router-link to="/found">
+                  招领
+                </router-link>
+              </a></b> 部分. 你可以告诉其他同学你丢失的宝贵物品，向他们寻求帮助。 <br />
               如果你找到了一些东西，你也可以帮助到其他人。
             </p>
             <div class="shrink d-inline-block">
-              <a class="learn-more px-5" href="about_us.html">了解更多</a>
+              <router-link to="/about-us" class="learn-more px-5">
+                了解更多
+              </router-link>
             </div>
           </div>
         </div>
@@ -142,7 +152,9 @@
               </ul>
 
               <div class="shrink">
-                <a class="learn-more px-5" href="forms/lostForm.html">前往</a>
+                <router-link to="/lost/form" class="learn-more px-5">
+                  前往
+                </router-link>
               </div>
             </div>
           </div>
@@ -179,7 +191,9 @@
               </ul>
 
               <div class="shrink">
-                <a class="learn-more px-5" href="forms/foundForm.html">前往</a>
+                <router-link to="/found" class="learn-more px-5">
+                  前往
+                </router-link>
               </div>
             </div>
           </div>
@@ -279,7 +293,9 @@
         </div>
         <div class="bottom text-center mt-5 pb-5">
           <div class="shrink">
-            <a class="learn-more px-5" href="gallery.html">View More</a>
+            <router-link to="/gallery-returned" class="learn-more px-5">
+              View More
+            </router-link>
           </div>
         </div>
       </section>
