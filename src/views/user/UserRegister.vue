@@ -5,7 +5,6 @@
   <div class="container">
     <h2>注册</h2>
     <form @submit.prevent="handleSubmit">
-
       <div class="phone-input-wrapper">
         <label for="phone">电话号：</label>
         <input
@@ -24,7 +23,6 @@
             :disabled="isSendingCode"
         />
         <span class="countdown-span" v-if="isSendingCode">{{ codeButtonText }}</span>
-
       </div>
       <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
       <label for="code">验证码：</label>
@@ -58,15 +56,16 @@
       <div v-if="repeatPasswordError" class="error-message">{{ repeatPasswordError }}</div>
       <br/>
       <div v-if="submitMessage" class="submit-message">{{ submitMessage }}</div>
+
+      <div class="actions">
+        <button
+            type="submit"
+            class="button"
+            style="margin-right: 40%; color: white"
+        >注册</button>
+        <router-link to="/user/login" class="button">返回登陆</router-link>
+      </div>
     </form>
-    <div class="actions">
-      <a
-          type="submit"
-          class="button"
-          style="margin-right: 40%; color: white"
-      >注册</a>
-      <router-link to="/user/login" class="button">返回登陆</router-link>
-    </div>
   </div>
 </template>
 
@@ -184,6 +183,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .background {
