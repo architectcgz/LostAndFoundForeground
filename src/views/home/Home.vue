@@ -315,13 +315,15 @@
         </div>
         <div class="container pb-5">
           <div class="row testimonial-three testimonial-three--col-three" style="align-content: center">
+
             <div class="col-md-4 testimonial-three-col">
-              <div class="testimonial-inner">
+              <a href="https://github.com/architectcgz">
+                <div class="testimonial-inner">
                 <div class="testimonial-image" itemprop="image">
-                  <img
-                      width="180"
-                      height="180"
-                      src="https://avatars.githubusercontent.com/u/119087313?s=400&u=64db8b6e53e545bc382427d08df8c7042a090165&v=4"
+                  <img alt=""
+                       width="180"
+                       height="180"
+                       src="https://avatars.githubusercontent.com/u/119087313?s=400&u=64db8b6e53e545bc382427d08df8c7042a090165&v=4"
                   />
                 </div>
                 <div class="testimonial-meta mb-2">
@@ -335,28 +337,31 @@
                   </p>
                 </div>
               </div>
+              </a>
             </div>
 
             <div class="col-md-4 testimonial-three-col">
-              <div class="testimonial-inner">
-                <div class="testimonial-image" itemprop="image">
-                  <img
-                      width="180"
-                      height="180"
-                      src="https://avatars.githubusercontent.com/u/130809523?s=64&v=4"
-                  />
+              <a href="https://github.com/lixueyuan123886">
+                <div class="testimonial-inner">
+                  <div class="testimonial-image" itemprop="image">
+                    <img
+                        width="180"
+                        height="180"
+                        src="https://avatars.githubusercontent.com/u/130809523?s=64&v=4"
+                    />
+                  </div>
+                  <div class="testimonial-meta mb-2">
+                    <strong class="testimonial-name" itemprop="name"
+                    >lixueyuan123886</strong
+                    >
+                  </div>
+                  <div class="testimonial-content">
+                    <p>
+                      Really a lot of work!
+                    </p>
+                  </div>
                 </div>
-                <div class="testimonial-meta mb-2">
-                  <strong class="testimonial-name" itemprop="name"
-                  >lixueyuan123886</strong
-                  >
-                </div>
-                <div class="testimonial-content">
-                  <p>
-                    Really a lot of work!
-                  </p>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
