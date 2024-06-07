@@ -178,7 +178,7 @@
     </main>
     <footer id="page-footer" class="py-2 bg-dark">
       <div class="container-fluid pb-5 pt-4 bg-light">
-        <div class="container">
+        <div class="container">1@
           <div class="row">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h4 class="text-dark">快速跳转</h4>
@@ -226,14 +226,7 @@
 <script>
 
 </script>
-<style>
-  *{
-    margin: 0;
-    padding: 0;
-  }
-</style>
 
 <style scoped>
 @import "/src/assets/css/homeStyle.css";
-
 </style>
