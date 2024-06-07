@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark vw-100">
-      <router-link to="/" class="navbar-brand grow">gotLost</router-link>
+      <router-link to="/" class="navbar-brand grow">失物招领</router-link>
       <button
           class="navbar-toggler"
           type="button"
@@ -283,60 +283,55 @@
           </div>
         </div>
       </section>
-      <section class="service section-5">
+      <section class="service section-5 w-100">
         <div class="row align-items-center container mx-auto py-5">
           <div class="img col-lg-6 col-md-6 col-12 w-75">
             <img src="/src/assets/images/mission.png" alt="image" class="img-fluid" />
           </div>
           <div class="text col-lg-6 col-md-6 col-12 w-75">
             <h2 class="title mb-3">
-              OUR MISSION
+              我们的目标
               <hr />
             </h2>
             <p class="mb-5">
-              Our mission  <br />
-              We all know
-              <b><a href="forms/lostForm.html">LOST</a></b> section so that we
-              can get you out of this stress ASAP. <br />
-              Even this page is created and managed by some of the students, so
+              <br />
+              希望
+              <b><router-link to="/lost">LOST</router-link></b> 模块能减轻你寻找失物的压力 <br />
             </p>
             <div class="shrink d-inline-block">
-              <a class="learn-more" href="about_us.html">Learn More</a>
+              <router-link class="learn-more" to="/about">了解更多</router-link>
             </div>
           </div>
         </div>
       </section>
-      <section class="section-primary t-bordered section-6">
+      <section class="section-primary t-bordered section-6 w-100">
         <div class="heading text-center mb-4">
           <h2 class="heading">
-            TESTIMONIALS
+            Contributors
             <div class="d-flex justify-content-center">
               <hr />
             </div>
           </h2>
         </div>
         <div class="container pb-5">
-          <div class="row testimonial-three testimonial-three--col-three">
+          <div class="row testimonial-three testimonial-three--col-three" style="align-content: center">
             <div class="col-md-4 testimonial-three-col">
               <div class="testimonial-inner">
                 <div class="testimonial-image" itemprop="image">
                   <img
                       width="180"
                       height="180"
-                      src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                      src="https://avatars.githubusercontent.com/u/119087313?s=400&u=64db8b6e53e545bc382427d08df8c7042a090165&v=4"
                   />
                 </div>
                 <div class="testimonial-meta mb-2">
                   <strong class="testimonial-name" itemprop="name"
-                  >Rawat Senpai</strong
+                  >Czf</strong
                   >
                 </div>
                 <div class="testimonial-content">
                   <p>
-                    Not gonna lie friends, it really worked for me, I lost my
-                    watch and was abe to retrieve it within a week. And the
-                    relief i got after that was just immense. Can’t thank you
-                    guys enough.
+                    Made home and etc...
                   </p>
                 </div>
               </div>
@@ -348,45 +343,17 @@
                   <img
                       width="180"
                       height="180"
-                      src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                      src="https://avatars.githubusercontent.com/u/130809523?s=64&v=4"
                   />
                 </div>
                 <div class="testimonial-meta mb-2">
                   <strong class="testimonial-name" itemprop="name"
-                  >Ishan Mishra</strong
+                  >lixueyuan123886</strong
                   >
                 </div>
                 <div class="testimonial-content">
                   <p>
-                    Here to share this wonderful experience when i lost my book
-                    and luckily a senior from the course same as mine returned
-                    it to me and they also help me with my acedemics very often
-                    now. Thanks a lot fot this.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 testimonial-three-col">
-              <div class="testimonial-inner">
-                <div class="testimonial-image" itemprop="image">
-                  <img
-                      width="180"
-                      height="180"
-                      src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                  />
-                </div>
-                <div class="testimonial-meta mb-2">
-                  <strong class="testimonial-name" itemprop="name"
-                  >Srishti Shukla</strong
-                  >
-                </div>
-                <div class="testimonial-content">
-                  <p>
-                    At first i didn’t put so much faith in this, but later when
-                    I got back my Headphone I can’t express how good I felt. And
-                    I never imagined that i’ll get it back but i was wrong and i
-                    got it back. And i never knew that my collegemates were so
-                    good and helpful. Thanks guys it means a lot.
+                    Really a lot of work!
                   </p>
                 </div>
               </div>
@@ -396,9 +363,9 @@
       </section>
     </main>
 
-    <footer id="page-footer" class="py-2 bg-dark">
+    <footer id="page-footer" class="py-2 bg-dark w-100">
       <div class="brand">
-        <router-link class="navbar-brand" to="/">gotLost</router-link>
+        <router-link class="navbar-brand" to="/">失物招领</router-link>
       </div>
       <div class="copyright">
         <small>
@@ -409,15 +376,18 @@
       <br>
       <hr>
       <div class="favicon">
-        <router-link to="#"><i class="social-media fab fa-facebook-f fa-2x"></i></router-link>
-        <router-link to="#"><i class="social-media fab fa-twitter fa-2x"></i></router-link>
-        <router-link to="#"><i class="social-media fab fa-instagram fa-2x"></i></router-link>
-        <router-link to="#"><i class="social-media fas fa-envelope fa-2x"></i></router-link>
+        <a href="https://github.com/architectcgz/LostAndFoundForeground" style="padding-right: 20px">
+          <i class="fa-brands fa-github-square fa-2x"></i>
+        </a>
+        <a href="#">
+          <i class="fa-brands fa-qq fa-2x"></i>
+        </a>
       </div>
 
       <div class="BackToTop">
-        <a id="back-to-top" href="#"  role="button"><i class="back fas fa-chevron-up fa-2x"></i></a>
-        <h4>Back To Top</h4>
+          <a id="back-to-top" href="#"  role="button">
+            <i class="fa-solid fa-circle-up fa-2x">返回顶部</i>
+          </a>
       </div>
 
     </footer>

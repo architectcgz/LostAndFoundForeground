@@ -22,7 +22,6 @@
     "element-plus": "^2.7.4",
     "express": "^4.19.2",
     "font-awesome": "^4.7.0",
-    "fontawesome": "^5.6.3",
     "jquery": "^3.7.1",
     "jsonwebtoken": "^9.0.2",
     "mdbootstrap": "^4.20.0",
