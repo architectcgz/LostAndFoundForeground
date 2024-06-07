@@ -12,6 +12,7 @@
         <div v-if="passwordError" class="error-message">{{ passwordError }}</div>
         <input type="submit" value="登录" />
       </form>
+      <div v-if="submitMessage" class="submit-message" style="color: red">{{ submitMessage }}</div>
       <div class="container">
         <router-link to="/user/register"><div class="select">注册</div></router-link>
         <router-link to="/user/forget_pwd"><div class="setup">忘记密码</div></router-link>
@@ -23,11 +24,13 @@
 <script>
 import {isPasswordValid, isPhoneValid} from "@/utils/validateUtils.js";
 import {baseUrl} from "@/constants/globalConstants.js";
+import router from "@/router/index.js";
 
 
 export default {
   data() {
     return {
+      submitMessage:'',
       phoneNum: '13949569329',
       password: 'cccasdas3242342',
       phoneError: '',
@@ -53,7 +56,7 @@ export default {
         this.passwordError = '';
       }
     },
-    onSubmit() {
+    async onSubmit() {
       this.validatePhone();
       this.validatePassword();
       if (!this.phoneError && !this.passwordError) {
@@ -62,7 +65,7 @@ export default {
           password: this.password
         };
 
-        fetch(`${baseUrl}/user/login`, {
+        await fetch(`${baseUrl}/user/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -71,13 +74,21 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
-              if (data.accessToken && data.refreshToken) {
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
+              if(data.code === 401) {
+                this.submitMessage = data.message!==''?data.message:'登录失败';
+                console.log(data.message);
+              }else{
+                if (data.accessToken && data.refreshToken) {
+                  localStorage.setItem('accessToken', data.accessToken);
+                  localStorage.setItem('refreshToken', data.refreshToken);
+                }
+                router.push("/home");
+                console.log('Success:', data);
               }
-              console.log('Success:', data);
+
             })
             .catch(error => {
+              this.submitMessage = error;
               console.error('Error:', error);
             });
       }

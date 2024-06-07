@@ -3,7 +3,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif
+    font-family: 'Montserrat', sans-serif;
+    /*background: url('/src/assets/photos/schoolback.jpg');*/
 }
 
 .navbar {
@@ -23,7 +24,7 @@
 }
 
 ul li {
-    margin: 0 10px;
+    margin: 0px 10px;
 }
 
 #navbarSupportedContent>ul>li:nth-child(n)>a {
@@ -53,6 +54,7 @@ ul li {
 
 section {
     position: relative;
+    width: fit-content;
 }
 
 .section-1 {
@@ -65,6 +67,7 @@ section {
 .section-1::before {
     content: "";
     background: url('/src/assets/images/background.png') center/cover no-repeat;
+    /*background: url('/src/assets/images/background.png') center/cover no-repeat;*/
     position: absolute;
     top: 0;
     width: 100%;
@@ -292,9 +295,9 @@ small span:hover {
 }
 
 .BackToTop{
-  margin-top: 30px;
-  margin-left: 46%;
-  color: rgba(255, 255, 255, 0.582);
+    margin-top: 30px;
+    margin-left: 46%;
+    color: rgba(255, 255, 255, 0.582);
 }
 
 .back{
@@ -321,11 +324,9 @@ small span:hover {
 
 /* Responsiveness */
 @media (max-width:600px){
-    .container {
-        width: 100%; /* 确保容器宽度是100% */
-        max-width: none; /* 取消Bootstrap的默认最大宽度限制 */
+    .container{
+        flex-direction: column;
     }
-
     .section-3{
         display: flex;
         flex-direction: column;
@@ -337,13 +338,5 @@ small span:hover {
         overflow: hidden;
     }
 }
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* 防止水平滚动 */
-}
-
 
 
