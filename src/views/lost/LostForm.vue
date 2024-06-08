@@ -1,217 +1,158 @@
 <template>
   <main>
     <section>
-      <div class="container" id="main-container">
-        <div class="image">
-          <img src="../images/lost-2.jpg" alt="丢失物品图片">
-        </div>
 
-        <div class="container p-5 mt-5" id="form-container">
-          <h1 class="text-center">丢失了东西？</h1>
-          <h3 class="text-center">帮助我们来帮助您！</h3>
-          <form class="mt-4" @submit.prevent="submitForm">
+      <div class="main-container">
+
+        <span class="container p-5 mt-5" id="form-container">
+
+          <form class="mt-4">
+            <h1 class="text-center">丢失物品？</h1>
+            <h3 class="text-center">帮助我们帮助您！</h3>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">姓名*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">姓名*</span>
               </div>
-              <input type="text" class="form-control" placeholder="请输入您的姓名" v-model="form.name">
+              <input type="text" class="form-control" placeholder="陈小智" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.name">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">邮箱*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">电话号*</span>
               </div>
-              <input type="email" class="form-control" placeholder="请输入您的邮箱" v-model="form.email">
+              <input type="email" class="form-control" placeholder="123886" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.email">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">物品名称*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">物品*</span>
               </div>
-              <input type="text" class="form-control" placeholder="请输入物品名称" v-model="form.itemName">
+              <input type="text" class="form-control" placeholder="物品名称" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">地点</span>
+              </div>
+              <input type="text" placeholder="如果记得的话" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">丢失地点</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">日期*</span>
               </div>
-              <input type="text" placeholder="如果记得，请输入" class="form-control" v-model="form.location">
-            </div>
-            <div class="input-group mb-4">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">日期*</span>
-              </div>
-              <input type="date" class="form-control" v-model="form.date">
+              <input type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-primary">物品描述*</span>
               </div>
-              <textarea class="form-control" placeholder="例如：它是黑色的…" v-model="form.description"></textarea>
+              <textarea class="form-control" placeholder="它是黑色的..." aria-label="With textarea"></textarea>
             </div>
-            <div class="input-group mb-5">
+            <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary">奖励</span>
+                <span class="input-group-text bg-primary">上传图片</span>
               </div>
-              <input type="text" placeholder="非必需" class="form-control" v-model="form.reward">
+              <input type="file" @change="handleFileUpload" class="form-control" aria-label="Upload">
             </div>
             <div class="form-check mb-5">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="form.agree">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">同意条款和条件</label>
             </div>
             <div class="submit-button text-center">
               <button type="submit" class="btn btn-outline-primary">提交</button>
             </div>
           </form>
-        </div>
+        </span>
+        <span class="image">
+          <img src="@/assets/images/lost-2.jpg" alt="">
+        </span>
       </div>
     </section>
   </main>
 </template>
 
 <script>
+import axios from 'axios'; // 确保已经安装并导入axios
+
 export default {
   data() {
     return {
-      form: {
+      // 初始化表单数据
+      formData: {
         name: '',
         email: '',
-        itemName: '',
+        item: '',
         location: '',
         date: '',
         description: '',
-        reward: '',
-        agree: false
-      }
+        image: null,
+      },
+      isAgreeTerms: false, // 同意条款的标记
     };
   },
   methods: {
+    handleFileUpload(event) {
+      this.formData.image = event.target.files[0];
+    },
     submitForm() {
-      console.log("表单已提交", this.form);
-      alert('表单已成功提交！请查看控制台获取数据。');
+      if (!this.isAgreeTerms) {
+        alert('请同意条款和条件');
+        return;
+      }
+
+      const dataToSend = new FormData();
+      dataToSend.append('name', this.formData.name);
+      dataToSend.append('email', this.formData.email);
+      dataToSend.append('item', this.formData.item);
+      dataToSend.append('location', this.formData.location);
+      dataToSend.append('date', this.formData.date);
+      dataToSend.append('description', this.formData.description);
+      if (this.formData.image) {
+        dataToSend.append('image', this.formData.image);
+      }
+
+      // 假设 'your-backend-url' 是后端的 URL
+      axios.post('your-backend-url', dataToSend, {
+        headers: {
+          'Content-Type': 'multipart/formdata'
+        }
+      })
+          .then(response => {
+            console.log('提交成功:', response.data);
+            alert('表单提交成功！');
+          })
+          .catch(error => {
+            console.error('提交错误:', error);
+            alert('提交失败，请重试！');
+          });
     }
   }
 };
 </script>
 
+
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+.main-container {
+  display: flex; /* 使用 Flexbox */
+  width: 100%; /* 确保主容器宽度为 100% */
+  align-items: center;
 }
 
-.navbar {
-  background: #030027;
-  padding: 1rem 8rem;
-  z-index: 1000;
+
+.container.p-5 {
+  padding: 20px; /* 保持内边距 */
+  position: relative;
+  left: 10px;
 }
 
-.navbar .navbar-brand {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: 'Monoton', cursive;
-}
-
-.navbar .navbar-brand:hover {
-  color: #caac00;
-}
-ul li {
-  margin: 0px 10px;
-}
-
-#navbarSupportedContent>ul>li:nth-child(n)>a {
-  color: #fff;
-  font-size: 1.1rem;
-  padding: 0 0.8rem;
-  cursor: pointer;
-}
-
-#navbarSupportedContent>ul>li:nth-child(n)>a:hover {
-  color: #caac00;
-}
-
-.signin {
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.signin:hover {
-  color: #caac00;
-}
-
-.grow {
-  transition: all 0.3s;
-}
-
-.grow:hover {
-  transform: scale(1.2);
-}
-
-#navbarSupportedContent>button:hover {
-  background: rgb(22, 138, 113);
-}
-
-#form-container {
-  max-width: 900px;
-  width: 100%;
-  background-color: white;
+.image img {
+  position: absolute;
+  top: 100px;
+  left: 500px;
+  width: 100%; /* 图片宽度自适应其容器 */
 }
 
 .input-group-text {
-  color: #ffffff;
-  letter-spacing: 1px;
-  font-family: 'Montserrat';
-}
-
-h1, h3 {
-  color: #030027;
-}
-
-.image {
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-img {
-  width: 100%;
-}
-
-#main-container {
-  max-width: 80%;
-  min-height: 100vh;
-  display: flex;
-}
-
-footer small {
-  word-spacing: 1px;
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.616);
-  margin-left: 10em;
-
-  cursor: pointer;
-}
-
-small span:hover {
-  color: white;
-}
-
-.brand a {
-  font-family: 'Monoton', cursive;
-  color: rgba(255, 255, 255, 0.582);
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.brand a:hover {
-  color: white;
-}
-
-#sticky-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #007bff; /* 更新背景颜色 */
+  color: white; /* 设置文字颜色 */
 }
 </style>
+
