@@ -1,14 +1,15 @@
 <template>
-  <main>
-    <section>
-
-      <div class="main-container">
+  <div>
+    <Navbar/>
+    <main>
+      <section>
+        <div class="main-container">
 
         <span class="container p-5 mt-5" id="form-container">
 
           <form class="mt-4">
             <h1 class="text-center">丢失物品？</h1>
-            <h3 class="text-center">帮助我们帮助您！</h3>
+            <h3 class="text-center">让我们帮助您！</h3>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-primary" id="inputGroup-sizing-default">姓名*</span>
@@ -61,18 +62,22 @@
             </div>
           </form>
         </span>
-        <span class="image">
+          <span class="image">
           <img src="@/assets/images/lost-2.jpg" alt="">
         </span>
-      </div>
-    </section>
-  </main>
+        </div>
+      </section>
+    </main>
+  </div>
+
 </template>
 
 <script>
-import axios from 'axios'; // 确保已经安装并导入axios
+import axios from 'axios';
+import Navbar from "@/components/Navbar.vue"; // 确保已经安装并导入axios
 
 export default {
+  components: {Navbar},
   data() {
     return {
       // 初始化表单数据
@@ -130,29 +135,30 @@ export default {
 
 
 <style scoped>
+
 .main-container {
   display: flex; /* 使用 Flexbox */
   width: 100%; /* 确保主容器宽度为 100% */
   align-items: center;
 }
 
-
 .container.p-5 {
   padding: 20px; /* 保持内边距 */
-  position: relative;
-  left: 10px;
+ margin-left: 380px;
 }
 
 .image img {
   position: absolute;
   top: 100px;
-  left: 500px;
-  width: 100%; /* 图片宽度自适应其容器 */
+  left: 900px;
+  width: 60%; /* 图片宽度自适应其容器 */
+  height: auto;
 }
 
 .input-group-text {
   background-color: #007bff; /* 更新背景颜色 */
   color: white; /* 设置文字颜色 */
 }
+
 </style>
 
