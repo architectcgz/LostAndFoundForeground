@@ -6,6 +6,7 @@ import LostForm from "@/views/lost/LostForm.vue";
 import FoundForm from "@/views/found/FoundForm.vue";
 import Home from "@/views/home/Home.vue";
 import AboutUs from "@/views/About.vue";
+import LostList from "@/views/lost/lostList/LostList.vue";
 
 
 
@@ -51,6 +52,14 @@ const router = createRouter({
         title: "用户注册"
       },
       component: UserRegister
+    },
+    {
+      path:'/lost',
+      name:'lostList',
+      meta:{
+        title: "失物处"
+      },
+      component: LostList
     },
     {
       path: '/lost/form',

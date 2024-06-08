@@ -1,7 +1,6 @@
 <template>
   <div>
     <Navbar/>
-
     <main class="vw-100">
       <section class="discovery container section-1">
         <div class="
