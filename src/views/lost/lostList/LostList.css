@@ -1,171 +1,163 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #990000; /* 合肥工业大学的深红色 */
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  header, footer {
-    width: 100%;
-    background-color: #003366; /* 合肥工业大学的主色 */
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-  }
-  
-  header h1 {
-    margin: 10px 0;
-    font-size: 24px;
-  }
-  
-  header img {
-    height: 50px;
-  }
-  
-  nav {
-    margin: 10px 0;
-  }
-  
-  nav a {
-    color: #fff;
-    margin: 0 10px;
-    text-decoration: none;
-  }
-  
-  .container {
-    width: 80%;
-    margin: 20px auto;
-    background-color: #990000; /* 统一背景色为深红色 */
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #fff;
-  }
-  
-  input[type="search"] {
-    padding: 8px;
-    margin-top: 8px;
-    width: 200px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .button-container {
-    margin-top: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .item {
-    border: 1px solid #ddd;
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #fafafa;
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
-    color: #000; /* 确保文字颜色在浅色背景上可见 */
-  }
-  
-  .item img {
-    width: 100px;
-    height: 100px;
-    border-radius: 5px;
-    margin-right: 20px;
-  }
-  
-  .item-details h4 {
-    margin: 0;
-    color: #333;
-  }
-  
-  .item-details p {
-    color: #666;
-    font-size: 0.9em;
-  }
-  
-  .register-lost-item {
-    display: none; /* 默认隐藏，通过按钮点击显示 */
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    color: #000;
-  }
-  
-  .register-lost-item form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .register-lost-item label {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .register-lost-item input[type="text"],
-  .register-lost-item input[type="date"],
-  .register-lost-item textarea {
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .register-lost-item input[type="submit"] {
-    background-color: #0084ff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .pagination button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 0 10px;
-  }
-  
-  .pagination button:hover {
-    background-color: #45a049;
-  }
-  
-  .pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination span {
-    font-size: 16px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+}
+.main-content {
+  flex: 1;
+}
+.item-container {
+  flex-direction: column;
+  height: 100vh;
+  background: url("/src/assets/images/background.png");
+  padding: 20px;
+  margin: 0;
+  width: 100%;
+  position: relative;
+}
+
+input[type="search"] {
+  padding: 8px;
+  margin-top: 8px;
+  width: 200px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.button-container {
+  margin-top: 10px;
+  text-align: center; /* Center button horizontally */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.items-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.item {
+  border: 1px solid #ddd;
+  width: calc(50% - 10px);
+  margin: 5px 0;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  color: #000; /* Ensure text color is visible on light background */
+}
+
+.item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.item-details h4 {
+  margin: 0;
+  color: #333;
+}
+
+.item-details p {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.register-lost-item {
+  display: none; /* Default to hidden, show via button click */
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  color: #000;
+}
+
+.register-lost-item form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-lost-item label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.register-lost-item input[type="text"],
+.register-lost-item input[type="date"],
+.register-lost-item textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-lost-item input[type="submit"] {
+  background-color: #0084ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 10px;
+}
+.add-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 10px;
+}
+
+
+.pagination button:hover {
+  background-color: #45a049;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 16px;
+}
