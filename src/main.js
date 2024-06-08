@@ -12,15 +12,11 @@ import '/src/assets/fontawesome-free-6.5.2-web/js/fontawesome.min.js';
 
 import App from './App.vue'
 import router from './router'
-import SvgIcon from "@/components/svgIcon/index.vue";
-import elementIcons from '@/components/svgIcon/svgicon'
 import stores from "@/stores/index.js";
 
 const app = createApp(App)
 
 app.use(createPinia())
-app.use(elementIcons)
-app.component('svg-icon', SvgIcon)
 app.use(router)
 app.use(stores)
 app.mount('#app')

@@ -5,6 +5,7 @@ import UserRegister from "@/views/user/UserRegister.vue";
 import LostForm from "@/views/lost/LostForm.vue";
 import FoundForm from "@/views/found/FoundForm.vue";
 import Home from "@/views/home/Home.vue";
+import AboutUs from "@/views/About.vue";
 
 
 
@@ -18,6 +19,14 @@ const router = createRouter({
         title: '校园失物招领管理'
       },
       component: Home
+    },
+    {
+      path:'/about',
+      name:'about',
+      meta:{
+        title: "关于"
+      },
+      component: AboutUs
     },
     {
       path: '/user/login',

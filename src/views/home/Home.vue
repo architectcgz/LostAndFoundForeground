@@ -1,41 +1,6 @@
 <template>
   <div>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark vw-100">
-      <router-link to="/" class="navbar-brand grow">失物招领</router-link>
-      <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item grow">
-            <router-link to="/" class="nav-link">Home</router-link>
-          </li>
-          <li class="nav-item grow">
-            <router-link to="/lost" class="nav-link">失物处</router-link>
-          </li>
-          <li class="nav-item grow">
-            <router-link to="/found" class="nav-link">招领处</router-link>
-          </li>
-          <li class="nav-item grow">
-            <router-link to="/about" class="nav-link">关于我们</router-link>
-          </li>
-          <li class="nav-item grow">
-            <router-link to="/contact" class="nav-link">联系我们</router-link>
-          </li>
-        </ul>
-
-        <router-link to="/user/login"><i class="fas fa-user signin grow">登录</i></router-link>
-      </div>
-    </nav>
+    <Navbar/>
 
     <main class="vw-100">
       <section class="discovery container section-1">
@@ -49,13 +14,13 @@
             justify-content-center
           "
         >
-          <h1 class="got-lost-heading mb-3">招领处</h1>
+          <h1 class="got-lost-heading mb-3">失物招领处</h1>
 
           <p>
-            你捡到了一些失物?
+            你捡到了一些失物?或者有东西遗失?
           </p>
           <p class="mb-5">
-            可以在这里帮助它找到失主!
+            可以在这里帮助它找到失主/向同学们寻求帮助!
           </p>
           <div class="shrink">
             <router-link to="/user/register" class="learn-more">现在注册</router-link>
@@ -102,7 +67,7 @@
               如果你找到了一些东西，你也可以帮助到其他人。
             </p>
             <div class="shrink d-inline-block">
-              <router-link to="/about-us" class="learn-more px-5">
+              <router-link to="/about" class="learn-more px-5">
                 了解更多
               </router-link>
             </div>
@@ -383,40 +348,14 @@
         </div>
       </section>
     </main>
-
-    <footer id="page-footer" class="py-2 bg-dark w-100">
-      <div class="brand">
-        <router-link class="navbar-brand" to="/">失物招领</router-link>
-      </div>
-      <div class="copyright">
-        <small>
-          <span>Copyright &copy;</span> <span>All Rights Reserved</span>
-          <span>Terms of Use</span> and <span>Privacy Policy</span></small
-        >
-      </div>
-      <br>
-      <hr>
-      <div class="favicon">
-        <a href="https://github.com/architectcgz/LostAndFoundForeground" style="padding-right: 20px">
-          <i class="fa-brands fa-github-square fa-2x"></i>
-        </a>
-        <a href="#">
-          <i class="fa-brands fa-qq fa-2x"></i>
-        </a>
-      </div>
-
-      <div class="BackToTop">
-          <a id="back-to-top" href="#"  role="button">
-            <i class="fa-solid fa-circle-up fa-2x">返回顶部</i>
-          </a>
-      </div>
-
-    </footer>
+    <Footer/>
   </div>
 </template>
 
 <script setup>
 
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 </script>
 
 <style>
