@@ -2,9 +2,9 @@
   <div class="vh-100">
     <Navbar/>
   </div>
-  <div>
+  <div class="all">
     <span class="background image">
-      <img src="@/assets/images/register.jpg" alt="background" />
+      <img src="@/assets/images/flat-alzheimer-concept-illustration_23-2149042102.jpg" alt="background" />
     </span>
     <span class="container">
       <h1 >找回密码</h1>
@@ -195,11 +195,10 @@ export default {
 
 
 <style scoped>
+
 .background {
   left: 0;
   top: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
   width: 100%;
   height: 100vh;
   z-index: -1;
@@ -208,7 +207,7 @@ export default {
 .image{
   position: absolute;
   top: 200px;
-  left: 100px;
+  left: 150px;
   width: 45%; /* 图片宽度自适应其容器 */
   height: auto;
 }
