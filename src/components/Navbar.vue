@@ -1,8 +1,8 @@
 <script>
 import {useUserStore} from "@/stores/index.js";
 import {mapState} from "pinia";
-import apiClient from "@/axios.js";
-import {baseUrl} from "@/constants/globalConstants.js";
+import axiosClient from "@/axios.js";
+
 
 
 export default {
@@ -16,7 +16,7 @@ export default {
       window.location.href = '/user/info';
     },
     async logout(){
-      await apiClient().post(baseUrl+"/user/logout",{})
+      await axiosClient.post("/user/logout")
           .then(response=>{
             console.log("成功登出",response.data);
             const userStore = useUserStore();

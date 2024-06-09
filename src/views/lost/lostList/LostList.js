@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import { baseUrl } from "@/constants/globalConstants.js";
 import axios from "axios";
-import apiClient from "@/axios.js";
+import axiosClient from "@/axios.js";
 
 export default {
   components: { Navbar, Footer },
@@ -54,7 +54,7 @@ export default {
     },
     async searchItems() {
       try {
-        const response = await apiClient.get(`/found/search`, {
+        const response = await axiosClient.get(`/found/search`, {
           params: {
             title: this.searchQuery.toString()
           },

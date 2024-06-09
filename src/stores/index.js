@@ -16,6 +16,11 @@ export const useUserStore = defineStore('userInfo', {
         getUser: (state) => state.user,
     },
     actions: {
+        setToken(accessToken, refreshToken){
+            this.accessToken = accessToken;
+            this.refreshToken = refreshToken;
+        }
+        ,
         login(user, accessToken, refreshToken) {
             this.user = user;
             this.accessToken = accessToken;

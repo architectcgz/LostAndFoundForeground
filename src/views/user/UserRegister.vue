@@ -137,7 +137,7 @@ export default {
             code: ''
           };
           //跳转到登陆页面
-          await router.push("userLogin");
+          await router.push("/user/login");
         }
       } catch (error) {
         this.submitMessage = error.response?.data?.message || '注册失败';

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vh-100">
     <Navbar/>
     <main>
       <section>
@@ -14,7 +14,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text bg-primary" id="inputGroup-sizing-default">姓名*</span>
               </div>
-              <input type="text" class="form-control" placeholder="卢俊滴滴答" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.name">
+              <input type="text" class="form-control" placeholder="" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.name">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">

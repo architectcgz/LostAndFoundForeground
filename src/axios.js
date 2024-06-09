@@ -5,7 +5,7 @@ import useUserStore from "@/stores/index.js";
 
 
 
-const apiClient = axios.create({
+const axiosClient = axios.create({
     baseURL: baseUrl,
     headers:{
         'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const apiClient = axios.create({
 });
 
 // 请求拦截器，附加 accessToken
-apiClient.interceptors.request.use(
+axiosClient.interceptors.request.use(
     config => {
         const accessToken = useUserStore().getAccessToken;
         if (accessToken) {
@@ -27,7 +27,7 @@ apiClient.interceptors.request.use(
 );
 
 // 响应拦截器，处理 401 错误并尝试刷新 token
-apiClient.interceptors.response.use(
+axiosClient.interceptors.response.use(
     response => {
         return response;
     },
@@ -35,7 +35,7 @@ apiClient.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            const refreshToken = localStorage.getItem('refreshToken');
+            const refreshToken = useUserStore().getRefreshToken;
             if (refreshToken) {
                 const decodedToken = jwtDecode(refreshToken);
                 const role = decodedToken.sub.split(':')[0].toLowerCase();
@@ -44,8 +44,8 @@ apiClient.interceptors.response.use(
                 try {
                     const response = await axios.post(`${refreshUrl}`, {}, {
                         headers: {
-                            'Authorization': `Bearer ${store.getters.accessToken}`,
-                            'RefreshToken': store.getters.refreshToken,
+                            'Authorization': `Bearer ${useUserStore().getAccessToken}`,
+                            'RefreshToken': useUserStore().getRefreshToken,
                             'Content-Type': 'application/json'
                         }
                     });
@@ -53,12 +53,12 @@ apiClient.interceptors.response.use(
                     const { accessToken, refreshToken: newRefreshToken } = response.data;
 
                     // 更新 tokens
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('refreshToken', newRefreshToken);
+                    useUserStore().accessToken = accessToken;
+                    useUserStore().refreshToken = newRefreshToken;
 
                     // 重新设置 Authorization 头并重试原始请求
                     originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-                    return apiClient(originalRequest);
+                    return axiosClient(originalRequest);
                 } catch (err) {
                     console.error('Token refresh failed:', err);
                     // 处理刷新 token 失败，例如重新登录
@@ -69,4 +69,4 @@ apiClient.interceptors.response.use(
     }
 );
 
-export default apiClient;
+export default axiosClient;
