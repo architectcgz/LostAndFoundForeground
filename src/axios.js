@@ -2,7 +2,8 @@ import axios from 'axios';
 import {baseUrl} from "@/constants/globalConstants.js";
 import {jwtDecode} from "jwt-decode";
 import useUserStore from "@/stores/index.js";
-
+import router from "@/router/index.js";
+import {isRefreshRequest, refreshTokenFunc} from "@/utils/refreshTokenUtil.js";
 
 
 const axiosClient = axios.create({
@@ -25,47 +26,45 @@ axiosClient.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
 // 响应拦截器，处理 401 错误并尝试刷新 token
 axiosClient.interceptors.response.use(
-    response => {
-        return response;
+    async (res) => {
+        if (res.headers.authorization) {
+            const token = res.headers.authorization.replace("Bearer ", "");
+            useUserStore().accessToken = token;
+            axiosClient.defaults.headers.Authorization = `Bearer ${token}`;
+        }
+        if (res.headers.refreshtoken) { // Note the lowercase 'r' to match the usual convention
+            const refreshToken = res.headers.refreshtoken.replace("Bearer ", "");
+            useUserStore().refreshToken = refreshToken;
+        }
+
+        return res;
     },
-    async error => {
-        const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
+    async (error) => {
+        const { response } = error;
+
+        if (response.status === 401 && response.data.message === "身份验证失败,请先登录!" && !await isRefreshRequest(response.config)) {
             const refreshToken = useUserStore().getRefreshToken;
-            if (refreshToken!=='') {
-                const decodedToken = jwtDecode(refreshToken);
-                const role = decodedToken.sub.split(':')[0].toLowerCase();
-                const refreshUrl = role === 'admin' ? '/admin/refresh_token' : '/user/refresh_token';
+            const decodedToken = jwtDecode(refreshToken);
+            const role = decodedToken.sub.split(':')[0].toLowerCase();
+            const refreshUrl = role === 'admin' ? '/admin/refresh_token' : '/user/refresh_token';
+            const isSuccess = await refreshTokenFunc(refreshUrl, useUserStore().getAccessToken, refreshToken);
 
-                try {
-                    const response = await axios.post(`${baseUrl}${refreshUrl}`, {}, {
-                        headers: {
-                            'Authorization': `Bearer ${useUserStore().getAccessToken}`,
-                            'RefreshToken': useUserStore().getRefreshToken,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
-
-                    // 更新 tokens
-                    useUserStore().accessToken = response.data.accessToken;
-                    useUserStore().refreshToken = response.data.refreshToken;
-
-                    // 重新设置 Authorization 头并重试原始请求
-                    originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-                    return axiosClient(originalRequest);
-                } catch (err) {
-                    console.error('Token refresh failed:', err);
-                    // 处理刷新 token 失败，例如重新登录
-                }
+            if (isSuccess) {
+                // Retry the original request
+                response.config.headers.Authorization = `Bearer ${useUserStore().getAccessToken}`;
+                return await axiosClient.request(response.config);
+            } else {
+                const loginUrl = role === 'admin' ? '/admin/login' : '/user/login';
+                await router.push(loginUrl);
             }
         }
+
         return Promise.reject(error);
     }
 );
+
+
 
 export default axiosClient;
