@@ -3,10 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UserForgetPwd from '../views/user/UserForgetPwd.vue'
 import UserRegister from "@/views/user/UserRegister.vue";
 import LostForm from "@/views/lost/LostForm.vue";
-import FoundForm from "@/views/found/FoundForm.vue";
 import Home from "@/views/home/Home.vue";
 import AboutUs from "@/views/About.vue";
 import LostList from "@/views/lost/lostList/LostList.vue";
+import FoundForm from "@/views/Found/FoundForm.vue";
+import FoundList from "@/views/Found/FoundList.vue";
 
 
 
@@ -76,13 +77,21 @@ const router = createRouter({
         title: "填写招领表"
       },
       component:FoundForm
-    }
+    },
+    {
+      path: '/found',
+      name: 'foundList',
+      meta:{
+        title: "招领处"
+      },
+      component:FoundList
+    },
+
 
   ]
 })
 //router设置页面标题
 router.beforeEach((to, from, next) => {
-  /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = to.meta.title
   }
