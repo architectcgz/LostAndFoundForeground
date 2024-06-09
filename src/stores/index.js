@@ -1,27 +1,33 @@
+import { defineStore } from 'pinia';
 
-import { createStore } from 'vuex';
-
-export default createStore({
-    state: {
+export const useUserStore = defineStore('userInfo', {
+    state: () => ({
+        user: null,
         accessToken: '',
         refreshToken: '',
-    },
-    mutations: {
-        setAccessToken(state, accessToken) {
-            state.accessToken = accessToken;
-        },
-        setRefreshToken(state, refreshToken) {
-            state.refreshToken = refreshToken;
-        },
-    },
-    actions: {
-        saveTokens({ commit }, tokens) {
-            commit('setAccessToken', tokens.accessToken);
-            commit('setRefreshToken', tokens.refreshToken);
-        },
+    }),
+    persist: {
+        enabled: true,
+        storage:sessionStorage
     },
     getters: {
-        accessToken: state => state.accessToken,
-        refreshToken: state => state.refreshToken,
+        getAccessToken: (state) => state.accessToken,
+        getRefreshToken: (state) => state.refreshToken,
+        getUser: (state) => state.user,
+    },
+    actions: {
+        login(user, accessToken, refreshToken) {
+            this.user = user;
+            this.accessToken = accessToken;
+            this.refreshToken = refreshToken;
+        },
+        logout() {
+            this.user = null;
+            this.accessToken = '';
+            this.refreshToken = '';
+        },
     },
 });
+
+
+export default useUserStore;

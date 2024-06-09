@@ -5,7 +5,7 @@
     </div>
     <div class="login-container">
       <h2>用户登录</h2>
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="onLogin">
         <input type="text" v-model="phoneNum" placeholder="手机号" @blur="validatePhone" />
         <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         <input type="password" v-model="password" placeholder="密码" @blur="validatePassword"/>
@@ -24,6 +24,8 @@
 <script>
 import {isPasswordValid, isPhoneValid} from "@/utils/validateUtils.js";
 import {baseUrl} from "@/constants/globalConstants.js";
+import axios from "axios";
+import {useUserStore} from "@/stores/index.js";
 import router from "@/router/index.js";
 
 
@@ -32,11 +34,12 @@ export default {
     return {
       submitMessage:'',
       phoneNum: '13949569329',
-      password: 'cccasdas3242342',
+      password: 'Xhj123Xhj!',
       phoneError: '',
       passwordError: ''
     };
   },
+
   methods: {
     validatePhone() {
       if (!this.phoneNum) {
@@ -56,7 +59,7 @@ export default {
         this.passwordError = '';
       }
     },
-    async onSubmit() {
+    async onLogin() {
       this.validatePhone();
       this.validatePassword();
       if (!this.phoneError && !this.passwordError) {
@@ -65,32 +68,47 @@ export default {
           password: this.password
         };
 
-        await fetch(`${baseUrl}/user/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestData)
-        })
-            .then(response => response.json())
-            .then(data => {
-              if(data.code === 401) {
-                this.submitMessage = data.message!==''?data.message:'登录失败';
-                console.log(data.message);
-              }else{
-                if (data.accessToken && data.refreshToken) {
-                  localStorage.setItem('accessToken', data.accessToken);
-                  localStorage.setItem('refreshToken', data.refreshToken);
-                }
-                router.push("/home");
-                console.log('Success:', data);
-              }
+        try {
+          const response = await axios.post(`${baseUrl}/user/login`, requestData, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
 
-            })
-            .catch(error => {
-              this.submitMessage = error;
-              console.error('Error:', error);
-            });
+          const data = response.data;
+          if (data.code === 401) {
+            this.submitMessage = data.message !== '' ? data.message : '登录失败';
+            console.log(data.message);
+          } else {
+            if (data.data.accessToken && data.data.refreshToken) {
+              console.log(data.data.refreshToken);
+              const userInfoResponse = await axios.get(`${baseUrl}/user/info`, {
+                headers: {
+                  'Authorization': `Bearer ${data.data.accessToken}`,
+                  'Content-Type': 'application/json'
+                }
+              });
+
+              const userInfo = userInfoResponse.data;
+              console.log(userInfo);
+              if (userInfo.code === 200) {
+                //保存到Vuex,供其他页面使用,同时保存到localStorage
+                //这个函数已经有了保存到localStorage的逻辑
+                const userStore = useUserStore()
+                userStore.login(userInfo.data, data.data.accessToken, data.data.refreshToken);
+                window.location.href = '/';
+                console.log('Success:', data);
+                console.log('User Info:', userInfo);
+              } else {
+                this.submitMessage = userInfo.message || 'Failed to fetch user info';
+                console.log(userInfo.message);
+              }
+            }
+          }
+        } catch (error) {
+          this.submitMessage = error.message;
+          console.error('Error:', error);
+        }
       }
     },
   }
@@ -98,81 +116,5 @@ export default {
 </script>
 
 <style scoped>
-.background {
-  left: 0;
-  top: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 100vh;
-  z-index: -1;
-  position: absolute;
-}
-
-.login-container {
-  position: absolute;
-  top: 45%;
-  left: 75%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  padding: 30px 30px 40px 30px;
-  box-shadow: 0 0 10px;
-  width: 325px;
-  text-align: center;
-}
-
-.login-container h2 {
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.login-container input[type="text"],
-.login-container input[type="password"] {
-  width: 95%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  height: auto;
-}
-
-.login-container .error-message {
-  color: red;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.login-container input[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-bottom: 20px;
-}
-
-.login-container input[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-.container {
-  display: flex;
-}
-
-.container a {
-  flex: 1;
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.container a:hover {
-  color: rgb(134, 119, 119);
-}
+  @import "UserLogin.css";
 </style>

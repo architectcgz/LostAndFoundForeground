@@ -1,6 +1,9 @@
-// src/axios.js
 import axios from 'axios';
 import {baseUrl} from "@/constants/globalConstants.js";
+import {jwtDecode} from "jwt-decode";
+import useUserStore from "@/stores/index.js";
+
+
 
 const apiClient = axios.create({
     baseURL: baseUrl,
@@ -12,7 +15,7 @@ const apiClient = axios.create({
 // 请求拦截器，附加 accessToken
 apiClient.interceptors.request.use(
     config => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = useUserStore().getAccessToken;
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
@@ -39,7 +42,14 @@ apiClient.interceptors.response.use(
                 const refreshUrl = role === 'admin' ? '/admin/refresh_token' : '/user/refresh_token';
 
                 try {
-                    const response = await axios.post(`${baseUrl}${refreshUrl}`, { refreshToken });
+                    const response = await axios.post(`${refreshUrl}`, {}, {
+                        headers: {
+                            'Authorization': `Bearer ${store.getters.accessToken}`,
+                            'RefreshToken': store.getters.refreshToken,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
                     const { accessToken, refreshToken: newRefreshToken } = response.data;
 
                     // 更新 tokens

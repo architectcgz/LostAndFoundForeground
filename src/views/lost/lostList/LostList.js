@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import { baseUrl } from "@/constants/globalConstants.js";
+import axios from "axios";
+import apiClient from "@/axios.js";
 
 export default {
   components: { Navbar, Footer },
@@ -50,6 +52,36 @@ export default {
         console.error('Error fetching items:', error);
       }
     },
+    async searchItems() {
+      try {
+        const response = await apiClient.get(`/found/search`, {
+          params: {
+            title: this.searchQuery.toString()
+          },
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = response.data;
+        if (data.code === 200) {
+          this.items = data.data.map(item => ({
+            name: item.name,
+            foundTime: item.foundTime,
+            description: item.description,
+            image: item.image || 'placeholder.jpg' // 使用默认占位符图片
+          }));
+          this.filteredItems = [...this.items];
+          this.totalItems = data.total;
+          this.currentPage = 1; // Reset to the first page
+        } else {
+          console.error('查询失败:', data.message);
+        }
+      } catch (error) {
+        console.error('查询失败', error);
+      }
+    },
+
     changePage(direction) {
       let newPage = this.currentPage;
       if (direction === 'prev' && this.currentPage > 1) {
