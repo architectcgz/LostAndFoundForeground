@@ -5,7 +5,11 @@
       <div class="item-container vw-100">
         <!-- 总数量显示 -->
         <div class="total-items" style="text-align: center; margin-bottom: 10px;">
-          总数量：{{ totalItems }} <router-link class="add-button" to="/found/form">添加招领</router-link>
+          总数量：{{ totalItems }} <router-link class="add-button" to="/lost/form">登记失物</router-link>
+          <form class="form-inline my-2 my-lg-0" @submit.prevent="searchItems" style="padding-left: 200px">
+            <input class="form-control mr-sm-2" type="search" placeholder="搜索失物" aria-label="Search" v-model="searchQuery">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+          </form>
         </div>
 
         <!-- 失物列表 -->
@@ -46,7 +50,7 @@
 </template>
 
 
-<script type="module" src="./LostList.js">
+<script type="module" src="./FoundList.js">
 
 </script>
 

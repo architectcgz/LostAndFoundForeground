@@ -36,13 +36,13 @@ axiosClient.interceptors.response.use(
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = useUserStore().getRefreshToken;
-            if (refreshToken) {
+            if (refreshToken!=='') {
                 const decodedToken = jwtDecode(refreshToken);
                 const role = decodedToken.sub.split(':')[0].toLowerCase();
                 const refreshUrl = role === 'admin' ? '/admin/refresh_token' : '/user/refresh_token';
 
                 try {
-                    const response = await axios.post(`${refreshUrl}`, {}, {
+                    const response = await axios.post(`${baseUrl}${refreshUrl}`, {}, {
                         headers: {
                             'Authorization': `Bearer ${useUserStore().getAccessToken}`,
                             'RefreshToken': useUserStore().getRefreshToken,
@@ -50,11 +50,10 @@ axiosClient.interceptors.response.use(
                         }
                     });
 
-                    const { accessToken, refreshToken: newRefreshToken } = response.data;
 
                     // 更新 tokens
-                    useUserStore().accessToken = accessToken;
-                    useUserStore().refreshToken = newRefreshToken;
+                    useUserStore().accessToken = response.data.accessToken;
+                    useUserStore().refreshToken = response.data.refreshToken;
 
                     // 重新设置 Authorization 头并重试原始请求
                     originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;

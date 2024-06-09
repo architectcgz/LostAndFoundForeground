@@ -28,6 +28,7 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "popper.js": "^1.16.1",
+    "sweetalert2": "^11.11.1",
     "vue": "^3.4.27",
     "vue-router": "^4.3.0"
   },

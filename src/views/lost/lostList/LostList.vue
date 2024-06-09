@@ -2,9 +2,6 @@
   <div style="margin: 0" class="vh-100">
     <Navbar/>
     <main style="margin: 0" class="main-content">
-      <div>
-
-      </div>
       <div class="item-container vw-100">
         <!-- 总数量显示 -->
         <div class="total-items" style="text-align: center; margin-bottom: 10px;">
@@ -25,7 +22,7 @@
               <p>描述：{{ item.description }}</p>
             </div>
           </div>
-          <p v-if="filteredItems.length === 0" style="text-align: center">没有找到匹配的失物。</p>
+          <p v-if="filteredItems.length === 0" style="text-align: center">没有找到匹配的物品。</p>
         </div>
 
         <!-- 分页按钮 -->
@@ -53,7 +50,7 @@
 </template>
 
 
-<script type="module" src="/src/views/lost/lostList/LostList.js">
+<script type="module" src="./LostList.js">
 
 </script>
 
