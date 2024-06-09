@@ -1,4 +1,7 @@
 <template>
+  <div class="vh-100">
+    <Navbar/>
+  </div>
   <div>
     <div class="background">
       <img src="@/assets/photos/schoolback2.jpg" width="100%" height="100%" alt="background" />
@@ -27,10 +30,11 @@ import {baseUrl} from "@/constants/globalConstants.js";
 import axios from "axios";
 import {useUserStore} from "@/stores/index.js";
 import router from "@/router/index.js";
-import axiosClient from "@/axios.js";
+import Navbar from "@/components/Navbar.vue";
 
 
 export default {
+  components: {Navbar},
   data() {
     return {
       submitMessage:'',
@@ -82,15 +86,21 @@ export default {
             console.log(data.message);
           } else {
             if (data.data.accessToken && data.data.refreshToken) {
-              useUserStore().setToken(data.data.accessToken,data.data.refreshToken);
-              const userInfoResponse = await axiosClient.get(`/user/info`);
+              console.log(data.data.refreshToken);
+              const userInfoResponse = await axios.get(`${baseUrl}/user/info`, {
+                headers: {
+                  'Authorization': `Bearer ${data.data.accessToken}`,
+                  'Content-Type': 'application/json'
+                }
+              });
 
               const userInfo = userInfoResponse.data;
               console.log(userInfo);
               if (userInfo.code === 200) {
                 //保存到Vuex,供其他页面使用,同时保存到localStorage
                 //这个函数已经有了保存到localStorage的逻辑
-                useUserStore().login(userInfo.data, data.data.accessToken, data.data.refreshToken);
+                const userStore = useUserStore()
+                userStore.login(userInfo.data, data.data.accessToken, data.data.refreshToken);
                 window.location.href = '/';
                 console.log('Success:', data);
                 console.log('User Info:', userInfo);

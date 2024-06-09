@@ -1,72 +1,79 @@
 <template>
-  <div class="background">
-    <img src="@/assets/photos/R2.jpg" width="100%" height="100%" alt="background" />
+  <div class="vh-100">
+    <Navbar/>
   </div>
-  <div class="container">
-    <h2>注册</h2>
-    <form @submit.prevent="handleSubmit">
-      <div class="phone-input-wrapper">
-        <label for="phone">电话号：</label>
+  <div>
+    <span class="background image">
+      <img src="@/assets/images/register.jpg" alt="background" />
+    </span>
+    <span class="container">
+      <h1 >注册</h1>
+      <form @submit.prevent="handleSubmit">
+        <div class="phone-input-wrapper">
+          <label for="phone" class="input-group-text bg-primary">电话号：</label>
+          <input
+              type="tel"
+              v-model="form.phone"
+              placeholder="输入手机号"
+              @blur="validatePhone"
+              :class="{'is-invalid': phoneError}"
+          />
+          <input
+              type="button"
+              name="code"
+              id="codeBtn"
+              value="发送验证码"
+              @click="sendCode"
+              :disabled="isSendingCode"
+          />
+          <span class="countdown-span" v-if="isSendingCode">{{ codeButtonText }}</span>
+        </div>
+        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
+        <label for="code" class="input-group-text bg-primary">验证码：</label>
         <input
-            type="tel"
-            v-model="form.phone"
-            placeholder="输入手机号"
-            @blur="validatePhone"
-            :class="{'is-invalid': phoneError}"
+            type="text"
+            v-model="form.code"
+            pattern="\d{6}"
+            placeholder="验证码"
         />
+        <br/>
+
+        <label for="password" class="input-group-text bg-primary">输入密码：</label>
         <input
-            type="button"
-            name="code"
-            id="codeBtn"
-            value="发送验证码"
-            @click="sendCode"
-            :disabled="isSendingCode"
+            type="password"
+            v-model="form.pwd"
+            placeholder="输入密码"
+            @blur="validatePassword"
+            :class="{'is-invalid': passwordError}"
         />
-        <span class="countdown-span" v-if="isSendingCode">{{ codeButtonText }}</span>
-      </div>
-      <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
-      <label for="code">验证码：</label>
-      <input
-          type="text"
-          v-model="form.code"
-          pattern="\d{6}"
-          placeholder="验证码"
-      />
-      <br/>
+        <div v-if="passwordError" class="error-message">{{ passwordError }}</div>
+        <br/>
 
-      <label for="password">输入密码：</label>
-      <input
-          type="password"
-          v-model="form.pwd"
-          placeholder="输入密码"
-          @blur="validatePassword"
-          :class="{'is-invalid': passwordError}"
-      />
-      <div v-if="passwordError" class="error-message">{{ passwordError }}</div>
-      <br/>
+        <label for="repeatPwd" class="input-group-text bg-primary">确认密码：</label>
+        <input
+            type="password"
+            v-model="form.repeatPwd"
+            placeholder="确认密码"
+            @blur="validateRepeatPassword"
+            :class="{'is-invalid': repeatPasswordError}"
+        />
+        <div v-if="repeatPasswordError" class="error-message">{{ repeatPasswordError }}</div>
+        <br/>
+        <div v-if="submitMessage" class="submit-message">{{ submitMessage }}</div>
 
-      <label for="repeatPwd">确认密码：</label>
-      <input
-          type="password"
-          v-model="form.repeatPwd"
-          placeholder="确认密码"
-          @blur="validateRepeatPassword"
-          :class="{'is-invalid': repeatPasswordError}"
-      />
-      <div v-if="repeatPasswordError" class="error-message">{{ repeatPasswordError }}</div>
-      <br/>
-      <div v-if="submitMessage" class="submit-message">{{ submitMessage }}</div>
-
-      <div class="actions">
-        <button
-            type="submit"
-            class="button"
-            style="margin-right: 40%; color: white"
-        >注册</button>
-        <router-link to="/user/login" class="button">返回登陆</router-link>
-      </div>
-    </form>
+        <div class="actions">
+          <button
+              type="submit"
+              class="button input-group-text bg-primary text-white px-2"
+              style="margin-right: 40%; color: white"
+          >注册</button>
+          <router-link to="/user/login" class="button">返回登陆</router-link>
+        </div>
+      </form>
+    </span>
   </div>
+
+
 </template>
 
 <script>
@@ -75,8 +82,10 @@ import { isPasswordValid, isPhoneValid } from '@/utils/validateUtils.js';
 import { baseUrl } from "@/constants/globalConstants.js";
 import router from "@/router/index.js";
 import {isStringNotEmpty} from "@/utils/stringUtils.js";
+import Navbar from "@/components/Navbar.vue";
 
 export default {
+  components: {Navbar},
   data() {
     return {
       form: {
@@ -196,20 +205,26 @@ export default {
   z-index: -1;
   position: absolute;
 }
-
-.container {
+.image{
   position: absolute;
-  margin-right: 50%;
-  top: 45%;
-  left: 50%;
+  top: 200px;
+  left: 100px;
+  width: 45%; /* 图片宽度自适应其容器 */
+  height: auto;
+}
+.container {
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 70%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  padding: 20px ;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+h1 {
   text-align: center;
 }
 
@@ -315,5 +330,12 @@ input[type="submit"][disabled], input[type="button"][disabled] {
 
 .is-invalid {
   border-color: red;
+}
+
+.input-group-text {
+  background-color: #007bff; /* 更新背景颜色 */
+  color: white; /* 设置文字颜色 */
+  width: 100px;
+  margin: 10px;
 }
 </style>
