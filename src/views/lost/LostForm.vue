@@ -8,7 +8,6 @@
             <form class="mt-4" @submit.prevent="onSubmit">
               <h1 class="text-center">丢失物品？</h1>
               <h3 class="text-center">让我们帮助您！</h3>
-
               <div class="input-group mb-4">
                 <div class="input-group-prepend">
                   <span class="input-group-text bg-primary">姓名*</span>
@@ -104,7 +103,7 @@ export default {
         location: '',
         lostTime: '',
         description: '',
-        ownerName: '',
+        ownerName: useUserStore().user.name,
         image: null,
       },
       isAgreeTerms: false,
@@ -139,7 +138,7 @@ export default {
     validateDescription() {
       this.errors.description = this.formData.description ? '' : '物品描述不能为空';
     },
-    onSubmit() {
+    async onSubmit() {
       this.validateName();
       this.validatePhone();
       this.validateItemName();
@@ -153,7 +152,7 @@ export default {
       }
 
       const requestData = {
-        name: useUserStore().user.name,
+        name: this.formData.itemName,
         phone: this.formData.phone,
         categoryId: '1',
         lostLocation: this.formData.location,
@@ -172,7 +171,7 @@ export default {
             if(response.data.code===1){
               Swal.fire({
                 title: '提交失败',
-                text: `招领信息提交失败: ${response.data.message}, 请重试!`,
+                text: `失物信息提交失败: ${response.data.message}, 请重试!`,
                 icon: 'warning',
                 confirmButtonText: '确定'
               });
@@ -180,24 +179,20 @@ export default {
               console.log('提交成功:', response.data.code);
               Swal.fire({
                 title: '提交成功',
-                text: '招领信息提交成功！',
+                text: '失物信息提交成功!',
                 icon: 'success',
                 confirmButtonText: '确定'
               });
             }
           })
           .catch(error => {
-            if (error.response && error.response.message) {
-              console.error('提交错误:', error);
-              Swal.fire({
-                title: '提交失败',
-                text: `招领信息提交失败: ${error}请重试!`,
-                icon: 'warning',
-                confirmButtonText: '确定'
-              });
-            } else {
-              this.errors.server = '提交失败，请重试！';
-            }
+            console.error('提交错误:', error);
+            Swal.fire({
+              title: '提交失败',
+              text: `失物信息提交失败: ${error}请重试!`,
+              icon: 'warning',
+              confirmButtonText: '确定'
+            });
             console.error('提交错误:', error);
           });
     }
