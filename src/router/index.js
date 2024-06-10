@@ -11,6 +11,7 @@ import FoundList from "@/views/found/foundList/FoundList.vue";
 import useUserStore from "@/stores/index.js";
 import {showLoginAlert} from "@/utils/showAlertUtil.js";
 import info from "@/views/info/info.vue";
+import objinfo from "@/views/info/objinfo.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,7 +106,15 @@ const router = createRouter({
       },
       component:info
     },
-
+    {
+      path: '/item-detail',
+      name: 'item-detail',
+      meta:{
+        title: "物品详情",
+        requireAuth: true,
+      },
+      component: objinfo
+    },
   ]
 })
 //router设置页面标题

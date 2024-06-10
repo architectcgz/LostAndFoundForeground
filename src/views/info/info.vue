@@ -4,10 +4,10 @@
     <div class="q">
       <div class="a">
         <div class="a1">
-          <img src="@/assets/images/airpods.jpg" height="200px" width="200px" />
+          <img src="@/assets/images/airpods.jpg" height="200px" width="200px"  alt=""/>
         </div>
         <br><br><br>
-        <b><font color="dodgerblue" size="4">&nbsp;&nbsp;&nbsp;&nbsp;个人信息：</font></b>
+        <b>&nbsp;&nbsp;&nbsp;&nbsp;个人信息：</b>
         <div class="a2"></div>
         <br>
         <div class="a3">
