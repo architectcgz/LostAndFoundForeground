@@ -10,9 +10,7 @@ import FoundForm from "@/views/found/foundForm/FoundForm.vue";
 import FoundList from "@/views/found/foundList/FoundList.vue";
 import useUserStore from "@/stores/index.js";
 import {showLoginAlert} from "@/utils/showAlertUtil.js";
-
-
-
+import info from "@/views/info/info.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -98,7 +96,15 @@ const router = createRouter({
       },
       component:FoundList
     },
-
+    {
+      path: '/user/info',
+      name: 'info',
+      meta:{
+        title: "个人信息",
+        requireAuth: true,
+      },
+      component:info
+    },
 
   ]
 })
