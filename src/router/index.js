@@ -8,6 +8,8 @@ import AboutUs from "@/views/about/About.vue";
 import LostList from "@/views/lost/lostList/LostList.vue";
 import FoundForm from "@/views/found/foundForm/FoundForm.vue";
 import FoundList from "@/views/found/foundList/FoundList.vue";
+import useUserStore from "@/stores/index.js";
+import {showLoginAlert} from "@/utils/showAlertUtil.js";
 
 
 
@@ -19,7 +21,8 @@ const router = createRouter({
       path:'/',
       name:'home',
       meta:{
-        title: '校园失物招领管理'
+        title: '校园失物招领管理',
+        requireAuth: false,
       },
       component: Home
     },
@@ -27,7 +30,8 @@ const router = createRouter({
       path:'/about',
       name:'about',
       meta:{
-        title: "关于"
+        title: "关于",
+        requireAuth: false,
       },
       component: AboutUs
     },
@@ -35,7 +39,8 @@ const router = createRouter({
       path: '/user/login',
       name: 'userLogin',
       meta: {
-        title: '用户登陆页面'
+        title: '用户登陆页面',
+        requireAuth: false,
       },
       component: UserLogin
     },
@@ -43,7 +48,8 @@ const router = createRouter({
       path: '/user/forget_pwd',
       name: 'userForgetPwd',
       meta: {
-        title: '忘记密码'
+        title: '忘记密码',
+        requireAuth: false,
       },
       component: UserForgetPwd
     },
@@ -51,7 +57,8 @@ const router = createRouter({
       path: '/user/register',
       name: 'userRegister',
       meta:{
-        title: "用户注册"
+        title: "用户注册",
+        requireAuth: false,
       },
       component: UserRegister
     },
@@ -59,7 +66,8 @@ const router = createRouter({
       path:'/lost',
       name:'lostList',
       meta:{
-        title: "失物处"
+        title: "失物处",
+        requireAuth: false,
       },
       component: LostList
     },
@@ -67,7 +75,8 @@ const router = createRouter({
       path: '/lost/form',
       name: 'lostForm',
       meta:{
-        title: "填写失物表"
+        title: "填写失物表",
+        requireAuth: true,
       },
       component:LostForm
     },
@@ -75,7 +84,8 @@ const router = createRouter({
       path: '/found/form',
       name: 'foundForm',
       meta:{
-        title: "填写招领表"
+        title: "填写招领表",
+        requireAuth: true,
       },
       component:FoundForm
     },
@@ -83,7 +93,8 @@ const router = createRouter({
       path: '/found',
       name: 'foundList',
       meta:{
-        title: "招领处"
+        title: "招领处",
+        requireAuth: true,
       },
       component:FoundList
     },
@@ -96,6 +107,11 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  // if(to.meta.requireAuth===true){
+  //   if(useUserStore().user===null){
+  //     showLoginAlert();//跳转到登陆页面方法写到了这里面
+  //   }
+  // }
   next()
 }
 )

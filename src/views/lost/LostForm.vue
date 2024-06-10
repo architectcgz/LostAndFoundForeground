@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar />
+    <Navbar/>
     <main>
       <section>
         <div class="main-container">
@@ -76,7 +76,7 @@
             </form>
           </div>
           <span class="image">
-            <img src="@/assets/images/lost-2.jpg" alt="">
+            <img src="/src/assets/images/lost-2.jpg" alt="">
           </span>
         </div>
       </section>
@@ -91,19 +91,23 @@ import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import axiosClient from "@/axios.js";
 import { isPhoneValid } from '/src/utils/validateUtils.js';
 import Swal from "sweetalert2";
+import {showLoginAlert} from "@/utils/showAlertUtil.js";
 
 export default {
   components: { Navbar },
   data() {
     return {
       formData: {
-        name: useUserStore().user.name,
-        phone: useUserStore().user.phone,
+        // name: useUserStore().user.name,
+        // phone: useUserStore().user.phone,
+        // ownerName: useUserStore().user.name,
+        name:'',
+        phone: '',
+        ownerName: '',
         itemName: '',
         location: '',
         lostTime: '',
         description: '',
-        ownerName: useUserStore().user.name,
         image: null,
       },
       isAgreeTerms: false,
@@ -146,7 +150,9 @@ export default {
       this.validateLostTime();
       this.validateDescription();
       this.errors.isAgreeTerms = this.isAgreeTerms ? '' : '请同意条款和条件';
-
+      if(useUserStore().user===null){
+        showLoginAlert();
+      }
       if (Object.keys(this.errors).some(key => this.errors[key])) {
         return;
       }
@@ -168,6 +174,10 @@ export default {
         }
       })
           .then(response => {
+            if(response.data.code===401){
+              showLoginAlert();
+              return;
+            }
             if(response.data.code===1){
               Swal.fire({
                 title: '提交失败',

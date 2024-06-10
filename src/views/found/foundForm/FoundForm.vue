@@ -72,7 +72,7 @@
           </form>
         </span>
           <span class="image">
-          <img src="../../../assets/images/shaking_hand.png" alt="">
+          <img src="/src/assets/images/shaking_hand.png" alt="">
         </span>
         </div>
       </section>
@@ -88,6 +88,7 @@ import useUserStore from "@/stores/index.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
 import {isPhoneValid} from "@/utils/validateUtils.js";
+import {showLoginAlert} from "@/utils/showAlertUtil.js";
 
 export default {
   components: { Navbar },
@@ -95,12 +96,15 @@ export default {
     return {
       // 初始化表单数据
       formData: {
-        name:useUserStore().user.name,
-        ownerName: useUserStore().user.name,
+        // name:'useUserStore().user.name',
+        // ownerName: useUserStore().user.name,
+        // phone: useUserStore().user.phone,
+        name:'',
+        ownerName: '',
+        phone: '',
         itemName: '',
         description: '',
         image: null,
-        phone: useUserStore().user.phone,
         categoryId: '',
         lostLocation: '',
         lostTime: '',
@@ -145,6 +149,10 @@ export default {
       this.validateLostTime();
       this.validateDescription();
       this.errors.isAgreeTerms = this.isAgreeTerms ? '' : '请同意条款和条件';
+      if(useUserStore().user===null){
+        showLoginAlert();
+      }
+
       if (Object.keys(this.errors).some(key => this.errors[key])) {
         return;
       }
@@ -165,6 +173,9 @@ export default {
         }
       })
           .then(response => {
+            if(response.status===401){
+              showLoginAlert();
+            }
             if(response.data.code===1){
               Swal.fire({
                 title: '提交失败',

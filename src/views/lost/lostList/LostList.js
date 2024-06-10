@@ -4,6 +4,7 @@ import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
 import router from "@/router/index.js";
+import {showLoginAlert} from "@/utils/showAlertUtil.js";
 
 export default {
   components: { Navbar, Footer },
@@ -90,24 +91,12 @@ export default {
           this.currentPage = 1;
         } else {
           console.error('查询失败:', data.message);
-          this.showLoginAlert();
+          showLoginAlert();
         }
       } catch (error) {
         console.error('查询失败', error);
-        this.showLoginAlert();
+        showLoginAlert();
       }
-    },
-    showLoginAlert() {
-      Swal.fire({
-        title: '查询失败',
-        text: '请先登录再进行搜索。',
-        icon: 'warning',
-        confirmButtonText: '确定'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push('/user/login');
-        }
-      });
     },
     resetItems() {
       this.filteredItems = [...this.items];
