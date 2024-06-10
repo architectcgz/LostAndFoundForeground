@@ -79,7 +79,7 @@
 <script>
 import axios from 'axios';
 import { isPasswordValid, isPhoneValid } from '@/utils/validateUtils.js';
-import { baseUrl } from "@/constants/globalConstants.js";
+import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import router from "@/router/index.js";
 import {isStringNotEmpty} from "@/utils/stringUtils.js";
 import Navbar from "@/components/Navbar.vue";
@@ -134,7 +134,7 @@ export default {
 
       console.log("点击了注册按钮")
       try {
-        const response = await axios.post(baseUrl + '/user/register', this.form);
+        const response = await axios.post(baseBackgroundUrl + '/user/register', this.form);
         this.submitMessage = response.data.message;
         if (response.data.code === 200) {
           // 清空表单
@@ -163,7 +163,7 @@ export default {
       this.codeButtonText = `${this.countdown}s`;
 
       try {
-        const response = await axios.get(baseUrl + '/user/register/code', { params: { phone: this.form.phone } });
+        const response = await axios.get(baseBackgroundUrl + '/user/register/code', { params: { phone: this.form.phone } });
         this.submitMessage = response.data.message;
       } catch (error) {
         this.submitMessage = error.response?.data?.message || '验证码发送失败';

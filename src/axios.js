@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {baseUrl} from "@/constants/globalConstants.js";
+import {baseBackgroundUrl} from "@/constants/globalConstants.js";
 import {jwtDecode} from "jwt-decode";
 import useUserStore from "@/stores/index.js";
 import router from "@/router/index.js";
@@ -7,7 +7,7 @@ import {isRefreshRequest, refreshTokenFunc} from "@/utils/refreshTokenUtil.js";
 
 
 const axiosClient = axios.create({
-    baseURL: baseUrl,
+    baseURL: baseBackgroundUrl,
     headers:{
         'Content-Type': 'application/json',
     }

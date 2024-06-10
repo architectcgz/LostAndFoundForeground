@@ -1,5 +1,5 @@
 import {isPasswordValid, isPhoneValid} from "@/utils/validateUtils.js";
-import {baseUrl} from "@/constants/globalConstants.js";
+import {baseBackgroundUrl} from "@/constants/globalConstants.js";
 import axios from "axios";
 import {useUserStore} from "@/stores/index.js";
 import Navbar from "@/components/Navbar.vue";
@@ -45,7 +45,7 @@ export default {
                     password: this.password
                 };
                 try {
-                    const response = await axios.post(`${baseUrl}/user/login`, requestData, {
+                    const response = await axios.post(`${baseBackgroundUrl}/user/login`, requestData, {
                         headers: {
                             'Content-Type': 'application/json'
                         }
@@ -57,7 +57,7 @@ export default {
                     } else {
                         if (data.data.accessToken && data.data.refreshToken) {
                             console.log(data.data.refreshToken);
-                            const userInfoResponse = await axios.get(`${baseUrl}/user/info`, {
+                            const userInfoResponse = await axios.get(`${baseBackgroundUrl}/user/info`, {
                                 headers: {
                                     'Authorization': `Bearer ${data.data.accessToken}`,
                                     'Content-Type': 'application/json'

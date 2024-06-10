@@ -1,3 +1,2 @@
-const baseUrl = "http://localhost:8080";
-
-export { baseUrl };
+const baseBackgroundUrl = "http://192.168.0.126:8080";
+export { baseBackgroundUrl };

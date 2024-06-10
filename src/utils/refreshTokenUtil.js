@@ -1,7 +1,7 @@
 import axios from "axios";
 import useUserStore from "@/stores/index.js";
 import axiosClient from "@/axios.js";
-import {baseUrl} from "@/constants/globalConstants.js";
+import {baseBackgroundUrl} from "@/constants/globalConstants.js";
 
 let promise;
 export async function refreshTokenFunc(url, accessToken, refreshToken) {
@@ -12,7 +12,7 @@ export async function refreshTokenFunc(url, accessToken, refreshToken) {
     promise = new Promise(async (resolve) => {
         try {
             console.log("Refreshing token");
-            const resp = await axios.post(baseUrl+url, {}, {
+            const resp = await axios.post(baseBackgroundUrl+url, {}, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     RefreshToken: refreshToken

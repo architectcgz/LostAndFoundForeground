@@ -5,7 +5,6 @@ module.exports = {
     indexPath: 'index.html', // html 的输出路径
     filenameHashing: true, // 文件名哈希值
     lintOnSave: false, // 是否在保存的时候使用 `eslint-loader` 进行检查。
-
     // 组件是如何被渲染到页面中的？ （ast：抽象语法树；vDom：虚拟DOM）
     // template ---> ast ---> render ---> vDom ---> 真实的Dom ---> 页面
     // runtime-only：将template在打包的时候，就已经编译为render函数

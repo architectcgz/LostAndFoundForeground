@@ -83,7 +83,7 @@
 
 <script>
 import Navbar from "@/components/Navbar.vue";
-import { baseUrl } from "@/constants/globalConstants.js";
+import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import useUserStore from "@/stores/index.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
@@ -159,7 +159,7 @@ export default {
         image: this.formData.image||null,
       };
 
-      axiosClient.post(`${baseUrl}/found/publish`, dataToSend, {
+      axiosClient.post(`${baseBackgroundUrl}/found/publish`, dataToSend, {
         headers: {
           'Content-Type': 'application/json'
         }

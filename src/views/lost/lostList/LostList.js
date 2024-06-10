@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import { baseUrl } from "@/constants/globalConstants.js";
+import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
 import router from "@/router/index.js";
@@ -43,7 +43,7 @@ export default {
   methods: {
     async fetchItems(pageNum = 1) {
       try {
-        const response = await axiosClient.get(`${baseUrl}/lost/list`, {
+        const response = await axiosClient.get(`${baseBackgroundUrl}/lost/list`, {
           params: {
             pageNum,
             pageSize: this.itemsPerPage
