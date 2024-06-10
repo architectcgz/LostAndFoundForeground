@@ -4,7 +4,7 @@
     <div class="q">
       <div class="a">
         <div class="a1">
-          <img src="@/assets/images/airpods.jpg" height="200px" width="200px"  alt=""/>
+          <img :src="avatar" height="200px" width="200px" alt="头像"/>
         </div>
         <br><br><br>
         <b>&nbsp;&nbsp;&nbsp;&nbsp;个人信息：</b>
@@ -13,11 +13,12 @@
         <div class="a3">
           <h4><b>昵称：</b></h4>
           <input v-model="nickname" :readonly="!editNickname" @mouseenter="editNickname = true" @mouseleave="saveAndExit" @blur="saveAndExit">
-
           <h4><b>电话：</b></h4>
           <input v-model="phone" :readonly="!editPhone" @mouseenter="editPhone = true" @mouseleave="saveAndExit" @blur="saveAndExit">
-
-          <button type="button" @click="changePassword">保存</button>
+          <h4><b>更改头像：</b></h4>
+          <input type="file" @change="previewImage" accept="image/*">
+          <br>
+          <button type="button" @click="saveChanges">保存所有更改</button>
         </div>
         <br><br>
       </div>
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -35,18 +37,52 @@ export default {
   components: {Footer, Navbar},
   data() {
     return {
-      nickname: 'subalaqi',
-      phone: '18034609730',
+      nickname: '',
+      phone: '',
       editNickname: false,
-      editPhone: false
+      editPhone: false,
+      avatar: '' // 默认为空，将从后端获取
     };
   },
+  created() {
+    this.fetchUserData();
+  },
   methods: {
-    changePassword() {
-      alert('修改密码功能尚未实现！');
+    fetchUserData() {
+      axios.get('http://localhost:8080/user/info')
+          .then(response => {
+            if (response.data.code === 200) {
+              const userData = response.data.data;
+              this.nickname = userData.name;
+              this.phone = userData.phone;
+              this.avatar = userData.avatar;
+            } else {
+              alert('获取数据失败：' + response.data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching user data:', error);
+            alert('无法加载用户数据');
+          });
     },
-    saveAndExit() {
-      // 这里可以添加保存逻辑，目前只是退出编辑模式
+    saveChanges() {
+      // 发送POST请求到后端保存用户数据
+      axios.post('http://localhost:8080/user/info', {
+        name: this.nickname,
+        phone: this.phone,
+        avatar: this.avatar
+      })
+          .then(response => {
+            if (response.data.code === 200) {
+              alert('用户信息已成功更新');
+            } else {
+              alert('更新失败：' + response.data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error updating user data:', error);
+            alert('更新用户信息失败');
+          });
       this.editNickname = false;
       this.editPhone = false;
     }
