@@ -37,8 +37,6 @@ export default {
     searchQuery(newQuery) {
       if (!newQuery.trim()) {
         this.fetchItems();
-      } else {
-        this.searchItems();
       }
     }
   },
@@ -132,7 +130,7 @@ export default {
       // 清空表单
       this.newItem = {
         name: '',
-        date: '',
+        lostTime: '',
         description: ''
       };
     }

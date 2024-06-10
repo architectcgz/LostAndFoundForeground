@@ -1,13 +1,13 @@
-import UserLogin from '@/views/user/UserLogin.vue'
+import UserLogin from '@/views/user/login/UserLogin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import UserForgetPwd from '../views/user/UserForgetPwd.vue'
-import UserRegister from "@/views/user/UserRegister.vue";
+import UserForgetPwd from '../views/user/forget_pwd/UserForgetPwd.vue'
+import UserRegister from "@/views/user/register/UserRegister.vue";
 import LostForm from "@/views/lost/LostForm.vue";
 import Home from "@/views/home/Home.vue";
-import AboutUs from "@/views/About.vue";
+import AboutUs from "@/views/about/About.vue";
 import LostList from "@/views/lost/lostList/LostList.vue";
-import FoundForm from "@/views/Found/FoundForm.vue";
-import FoundList from "@/views/Found/FoundList.vue";
+import FoundForm from "@/views/found/foundForm/FoundForm.vue";
+import FoundList from "@/views/found/foundList/FoundList.vue";
 
 
 

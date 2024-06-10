@@ -4,7 +4,7 @@
   </div>
   <div>
     <span class="background image">
-      <img src="@/assets/images/register.jpg" alt="background" />
+      <img src="../../../assets/images/register.jpg" alt="background" />
     </span>
     <span class="container">
       <h1 >注册</h1>

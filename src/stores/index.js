@@ -2,13 +2,12 @@ import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('userInfo', {
     state: () => ({
-        user: null,
+        user:null,
         accessToken: '',
         refreshToken: '',
     }),
     persist: {
         enabled: true,
-        storage:sessionStorage
     },
     getters: {
         getAccessToken: (state) => state.accessToken,

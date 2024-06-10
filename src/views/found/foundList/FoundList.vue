@@ -55,5 +55,5 @@
 </script>
 
 <style scoped>
-@import "FoundList.css";
+@import "./FoundList.css";
 </style>

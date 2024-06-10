@@ -9,18 +9,18 @@
 
           <form class="mt-4">
             <h1 class="text-center">捡到物品？</h1>
-            <h3 class="text-center">登记下表以找到失主</h3>
+            <h3 class="text-center">登记下表来帮助失主</h3>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-primary" id="inputGroup-sizing-default">姓名*</span>
+                <span class="input-group-text bg-primary" id="inputGroup-sizing-default" >姓名*</span>
               </div>
-              <input type="text" class="form-control" placeholder="" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.name">
+              <input type="text" class="form-control" placeholder="输入姓名" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.name">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-primary" id="inputGroup-sizing-default">电话号*</span>
               </div>
-              <input type="email" class="form-control" placeholder="159357" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.email">
+              <input class="form-control" placeholder="输入手机号码" aria-label="Default" aria-describedby="inputGroup-sizing-default" v-model="formData.phone">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
@@ -53,13 +53,17 @@
               </div>
               <input type="file" @change="handleFileUpload" class="form-control" aria-label="Upload">
             </div>
+            <div class="form-check mb-5">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">同意条款和条件</label>
+            </div>
             <div class="submit-button text-center">
-              <button type="submit" class="btn btn-outline-primary">提交</button>
+              <button type="submit" class="btn btn-outline-primary" onclick="@submitForm">提交</button>
             </div>
           </form>
         </span>
           <span class="image">
-          <img src="@/assets/images/shaking_hand.png" alt="">
+          <img src="../../../assets/images/shaking_hand.png" alt="">
         </span>
         </div>
       </section>
@@ -69,22 +73,27 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Navbar from "@/components/Navbar.vue"; // 确保已经安装并导入axios
+import Navbar from "@/components/Navbar.vue";
+import { baseUrl } from "@/constants/globalConstants.js";
+import useUserStore from "@/stores/index.js";
+import axiosClient from "@/axios.js";
+import Swal from "sweetalert2";
 
 export default {
-  components: {Navbar},
+  components: { Navbar },
   data() {
     return {
       // 初始化表单数据
       formData: {
-        name: '',
-        email: '',
+        name:useUserStore().user.name,
+        ownerName: useUserStore().user.name,
         item: '',
-        location: '',
-        date: '',
         description: '',
         image: null,
+        phone: useUserStore().user.phone,
+        categoryId: '',
+        lostLocation: '',
+        lostTime: '',
       },
       isAgreeTerms: false, // 同意条款的标记
     };
@@ -93,36 +102,54 @@ export default {
     handleFileUpload(event) {
       this.formData.image = event.target.files[0];
     },
-    submitForm() {
+    async submitForm() {
+
       if (!this.isAgreeTerms) {
         alert('请同意条款和条件');
-        return;
       }
+      const dataToSend = {
+        image: this.formData.image,
+        categoryId: this.formData.categoryId,
+        lostLocation: this.formData.lostLocation,
+        lostTime: this.formData.lostTime,
+        description: this.formData.description,
+        ownerName: this.formData.ownerName,
+        phone: this.formData.phone,
+        createUser: this.formData.createUser,
+      };
 
-      const dataToSend = new FormData();
-      dataToSend.append('name', this.formData.name);
-      dataToSend.append('email', this.formData.email);
-      dataToSend.append('item', this.formData.item);
-      dataToSend.append('location', this.formData.location);
-      dataToSend.append('date', this.formData.date);
-      dataToSend.append('description', this.formData.description);
-      if (this.formData.image) {
-        dataToSend.append('image', this.formData.image);
-      }
-
-      // 假设 'your-backend-url' 是后端的 URL
-      axios.post('your-backend-url', dataToSend, {
+      axiosClient.post(`${baseUrl}/found/publish`, dataToSend, {
         headers: {
-          'Content-Type': 'multipart/formdata'
+          'Content-Type': 'application/json'
         }
       })
           .then(response => {
-            console.log('提交成功:', response.data);
-            alert('表单提交成功！');
+            if(response.data.code===1){
+              Swal.fire({
+                title: '提交失败',
+                text: `${response.data.message}`,
+                icon: 'warning',
+                confirmButtonText: '确定'
+              });
+            }else{
+              console.log('提交成功:', response.data.code);
+              Swal.fire({
+                title: '提交成功',
+                text: '招领信息提交成功！',
+                icon: 'success',
+                confirmButtonText: '确定'
+              });
+            }
+
           })
           .catch(error => {
             console.error('提交错误:', error);
-            alert('提交失败，请重试！');
+            Swal.fire({
+              title: '提交失败',
+              text: '招领信息提交失败，请重试!',
+              icon: 'warning',
+              confirmButtonText: '确定'
+            });
           });
     }
   }
