@@ -98,12 +98,9 @@ export default {
   data() {
     return {
       formData: {
-        // name: useUserStore().user.name,
-        // phone: useUserStore().user.phone,
-        // ownerName: useUserStore().user.name,
-        name:'',
-        phone: '',
-        ownerName: '',
+        name: useUserStore().user===null?useUserStore().user.name:"",
+        phone: useUserStore().user===null?useUserStore().user.phone:"",
+        ownerName: useUserStore().user===null?useUserStore().user.name:"",
         itemName: '',
         location: '',
         lostTime: '',
