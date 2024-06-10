@@ -6,23 +6,35 @@
         <div class="a1">
           <img :src="avatar" height="200px" width="200px" alt="头像"/>
         </div>
-        <br><br><br>
-        <b>&nbsp;&nbsp;&nbsp;&nbsp;个人信息：</b>
-        <div class="a2"></div>
-        <br>
         <div class="a3">
+          <b>个人信息：</b>
           <h4><b>昵称：</b></h4>
           <input v-model="nickname" :readonly="!editNickname" @mouseenter="editNickname = true" @mouseleave="saveAndExit" @blur="saveAndExit">
-          <h4><b>电话：</b></h4>
-          <input v-model="phone" :readonly="!editPhone" @mouseenter="editPhone = true" @mouseleave="saveAndExit" @blur="saveAndExit">
           <h4><b>更改头像：</b></h4>
           <input type="file" @change="previewImage" accept="image/*">
           <br>
           <button type="button" @click="saveChanges">保存所有更改</button>
         </div>
-        <br><br>
+        <div class="a4">
+          <b>曾经发布：</b>
+          <h4><b>招领：</b></h4> <!-- 示例未具体展开招领内容，留空或根据需要添加 -->
+          <ul>
+            <li v-for="item in foundItems" :key="item.id">
+              <img :src="item.image" alt="招领物品图片" style="width: 100px; height: 100px;">
+              <p>{{ item.description }}</p>
+            </li>
+          </ul>
+          <h4><b>失物：</b></h4>
+          <ul>
+            <li v-for="item in lostItems" :key="item.id">
+              <img :src="item.image" alt="失物图片" style="width: 100px; height: 100px;">
+              <p>{{ item.description }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+
     <Footer style="bottom: 0"/>
   </div>
 </template>
@@ -31,61 +43,73 @@
 import axios from 'axios';
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import useUserStore from "@/stores/index.js";
+import axiosClient from "@/axios.js";
 
 export default {
   name: 'UserInfo',
-  components: {Footer, Navbar},
+  components: { Navbar, Footer },
   data() {
     return {
-      nickname: '',
-      phone: '',
+      nickname: useUserStore().user.name,
       editNickname: false,
-      editPhone: false,
-      avatar: '' // 默认为空，将从后端获取
+      avatar: useUserStore().user.avatar,
+      avatarFile: null,
+      lostItems: [], // 存储后端获取的失物信息
+      foundItems: [] // 同样，这里可以存储招领信息
     };
   },
-  created() {
-    this.fetchUserData();
-  },
   methods: {
-    fetchUserData() {
-      axios.get('http://localhost:8080/user/info')
-          .then(response => {
-            if (response.data.code === 200) {
-              const userData = response.data.data;
-              this.nickname = userData.name;
-              this.phone = userData.phone;
-              this.avatar = userData.avatar;
-            } else {
-              alert('获取数据失败：' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error('Error fetching user data:', error);
-            alert('无法加载用户数据');
-          });
+    previewImage(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.avatar = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    fetchLostItems() {
+      axios.get('http://localhost:8080/user/my-lost', {
+        params: {
+          pageNum: 1,
+          pageSize: 12
+        }
+      }).then(response => {
+        if (response.data.code === 200 && response.data.data.length > 0) {
+          this.lostItems = response.data.data;
+        } else {
+          console.error('未找到失物信息:', response.data.message);
+        }
+      }).catch(error => {
+        console.error('加载失物信息失败', error);
+      });
     },
     saveChanges() {
-      // 发送POST请求到后端保存用户数据
-      axios.post('http://localhost:8080/user/info', {
-        name: this.nickname,
-        phone: this.phone,
-        avatar: this.avatar
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              alert('用户信息已成功更新');
-            } else {
-              alert('更新失败：' + response.data.message);
-            }
-          })
-          .catch(error => {
-            console.error('Error updating user data:', error);
-            alert('更新用户信息失败');
-          });
-      this.editNickname = false;
-      this.editPhone = false;
+      if (this.avatarFile) {
+        const formData = new FormData();
+        formData.append('avatar', this.avatarFile);
+        axiosClient().post('${baseBackgroundUrl}/user/avatar/update', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          if (response.data.code === 200) {
+            alert('头像已成功更新');
+            this.avatarFile = null;
+          } else {
+            alert('更新头像失败：' + response.data.message);
+          }
+        }).catch(error => {
+          console.error('更新头像失败', error);
+          alert('更新头像失败');
+        });
+      }
+
+      this.editNickname = false; // 重置昵称编辑标志
     }
+  },
+  mounted() {
+    this.fetchLostItems(); // 组件挂载时获取失物信息
   }
 }
 </script>
@@ -103,12 +127,12 @@ export default {
   background-image: url("@/assets/photos/schoolback.jpg");
 }
 .a {
+  display: flex;        /* 启用Flexbox布局 */
   background-color: white;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 8px;
   transition: transform 0.3s ease-in-out;
-  width: 100%;
 }
 .a:hover {
   transform: translateY(-5px);
@@ -126,6 +150,9 @@ export default {
   margin-top: 5px;
 }
 .a3 {
+  padding: 20px;
+}
+.a4{
   padding: 20px;
 }
 h4, h5 {
