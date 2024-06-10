@@ -96,9 +96,9 @@ export default {
     return {
       // 初始化表单数据
       formData: {
-        name: useUserStore().user===null?useUserStore().user.name:"",
-        phone: useUserStore().user===null?useUserStore().user.phone:"",
-        ownerName: useUserStore().user===null?useUserStore().user.name:"",
+        name: useUserStore().user!==null?useUserStore().user.name:"",
+        phone: useUserStore().user!==null?useUserStore().user.phone:"",
+        ownerName: useUserStore().user!==null?useUserStore().user.name:"",
         // name:'',
         // ownerName: '',
         // phone: '',

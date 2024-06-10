@@ -14,7 +14,7 @@ export default defineConfig({
     }
   },
   server:{
-    host:'192.168.0.126',
+    // host:'192.168.0.126',
     port:'8089',
     https:false,
   }
