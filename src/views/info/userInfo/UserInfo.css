@@ -1,43 +1,67 @@
-
 .q {
-    height: 800px;
-    width: 600px;
+    width: 100%;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.vh-100{
+.vh-100 {
     background-image: url("@/assets/photos/schoolback.jpg");
 }
+.item {
+    border: 1px solid #ddd;
+    width: calc(30% - 20px); /* Adjust width to fit three items per row */
+    margin: 10px; /* Adjust margin to ensure proper spacing */
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    color: #000;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f0f0f0;
+}
+.item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.item-details h4 {
+    margin: 0;
+    color: #333;
+}
+
+.item-details p {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 0;
+}
+
 .a {
     display: flex;
     background-color: white;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
 }
-.a:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+.left-section {
+    flex: 1;
+    padding: 20px;
+}
+.right-section {
+    flex: 2;
+    padding: 20px;
 }
 .a1 {
     margin: 0 auto;
     padding-top: 20px;
-}
-.a2 {
-    height: 2px;
-    width: 90%;
-    background-color: deepskyblue;
-    margin-left: 25px;
-    margin-top: 5px;
-}
-.a3 {
-    padding: 20px;
-}
-.a4{
-    padding: 20px;
 }
 h4, h5 {
     cursor: pointer;
@@ -77,3 +101,51 @@ input:not([readonly]) {
     cursor: text;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}
+.add-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}
+
+.pagination button:hover {
+    background-color: #45a049;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 16px;
+}
+
+.items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}

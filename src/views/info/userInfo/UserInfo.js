@@ -4,6 +4,7 @@ import Footer from "@/components/Footer.vue";
 import useUserStore from "@/stores/index.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
+import {goToDetail} from "@/views/js/goToDetail.js";
 
 export default {
     name: 'UserInfo',
@@ -13,15 +14,41 @@ export default {
         return {
             nickname: userStore.user.name,
             originalNickname: userStore.user.name,
-            phoneNumber: userStore.user.phone,
+            phone: userStore.user.phone,
             editNickname: false,
             avatar: userStore.user.avatar,
             avatarFile: null,
+            lostItemsCurrentPage: 1,
+            foundItemsCurrentPage: 1,
+            itemsPerPage: 3,
             lostItems: [],
-            foundItems: []
+            filteredLostItems:[],
+            foundItems: [],
+            filteredFoundItems:[],
+            lostItemsTotal:0,
+            foundItemsTotal:0,
         };
     },
+    computed: {
+        lostTotalPages() {
+            return Math.ceil(this.lostItemsTotal / this.itemsPerPage);
+        },
+        paginatedLostItems() {
+            const start = (this.lostItemsCurrentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredLostItems.slice(start, end);
+        },
+        foundTotalPages() {
+            return Math.ceil(this.foundItemsTotal / this.itemsPerPage);
+        },
+        paginatedFoundItems() {
+            const start = (this.foundItemsCurrentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredFoundItems.slice(start, end);
+        }
+    },
     methods: {
+        goToDetail,
         toggleEditNickname() {
             this.editNickname = !this.editNickname;
         },
@@ -46,15 +73,51 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        async fetchLostItems() {
+        changeLostItemPage(direction) {
+            let newPageNum = this.lostItemsCurrentPage;
+            if (direction === 'prev' && this.lostItemsCurrentPage > 1) {
+                newPageNum--;
+            } else if (direction === 'next' && this.lostItemsCurrentPage < this.lostTotalPages) {
+                newPageNum++;
+            }
+            this.fetchLostItems(newPageNum);
+        },
+        changeFoundItemPage(direction) {
+            let newPageNum = this.foundItemsCurrentPage;
+            if (direction === 'prev' && this.foundItemsCurrentPage > 1) {
+                newPageNum--;
+            } else if (direction === 'next' && this.foundItemsCurrentPage < this.foundTotalPages) {
+                newPageNum++;
+            }
+            this.fetchFoundItems(newPageNum);
+        },
+        async fetchLostItems(pageNum= 1) {
             axiosClient.get('/user/my-lost', {
                 params: {
-                    pageNum: 1,
-                    pageSize: 12
+                    pageNum: pageNum,
+                    pageSize: this.itemsPerPage
                 }
             }).then(response => {
-                if (response.data.code === 200 && response.data.data.length > 0) {
-                    this.lostItems = response.data.data;
+                const data = response.data;
+                if (data.code === 200 && data.data.length > 0) {
+                    const newItems = data.data.map(item => ({
+                        id:item.id,
+                        name: item.name,
+                        createTime: item.createTime,
+                        lostTime: item.lostTime,
+                        description: item.description,
+                        image: item.image || 'placeholder.jpg'
+                    }));
+
+
+                    if(this.lostItemsCurrentPage===1){
+                        this.lostItems = newItems;
+                    }else{
+                        this.lostItems = [...this.lostItems, ...newItems];
+                    }
+                    this.filteredLostItems = [...this.lostItems];
+                    this.lostItemsTotal = data.total;
+                    this.lostItemsCurrentPage = pageNum;
                 } else {
                     console.error('未找到失物信息:', response.data.message);
                 }
@@ -62,17 +125,32 @@ export default {
                 console.error('加载失物信息失败', error);
             });
         },
-        async fetchFoundItems() {
+        async fetchFoundItems(pageNum= 1) {
             axiosClient.get('/user/my-found', {
                 params: {
-                    pageNum: 1,
-                    pageSize: 12
+                    pageNum: pageNum,
+                    pageSize: this.itemsPerPage
                 }
             }).then(response => {
-                if (response.data.code === 200 && response.data.data.length > 0) {
-                    this.foundItems = response.data.data;
+                const data = response.data;
+                if (data.code === 200 && data.data.length > 0) {
+                    const newItems = data.data.map(item => ({
+                        id:item.id,
+                        name: item.name,
+                        createTime: item.createTime,
+                        foundTime: item.foundTime,
+                        description: item.description,
+                        image: item.image || 'placeholder.jpg'
+                    }));
+                    if(this.foundItemsCurrentPage===1){
+                        this.foundItems = newItems;
+                    }else{
+                        this.foundItems = [...this.foundItems, newItems];
+                    }
+                    this.filteredFoundItems = [...this.foundItems];
+                    this.foundItemsTotal = data.total;
                 } else {
-                    console.error('未找到招领信息:', response.data.message);
+                    console.error('未找到招领信息:', data.message);
                 }
             }).catch(error => {
                 console.error('加载招领信息失败', error);

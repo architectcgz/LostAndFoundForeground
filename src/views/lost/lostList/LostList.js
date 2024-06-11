@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import { baseBackgroundUrl } from "@/constants/globalConstants.js";
 import axiosClient from "@/axios.js";
 import Swal from "sweetalert2";
 import router from "@/router/index.js";
