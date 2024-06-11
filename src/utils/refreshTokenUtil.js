@@ -2,6 +2,7 @@ import axios from "axios";
 import useUserStore from "@/stores/index.js";
 import axiosClient from "@/axios.js";
 import {baseBackgroundUrl} from "@/constants/globalConstants.js";
+import Swal from "sweetalert2";
 
 let promise;
 export async function refreshTokenFunc(url, accessToken, refreshToken) {
@@ -19,7 +20,14 @@ export async function refreshTokenFunc(url, accessToken, refreshToken) {
                 },
                 __isRefreshToken: true,
             });
-
+            if(resp.data.data===null){
+                Swal.fire({
+                    title: '检查登陆状态',
+                    text: resp.data.message,
+                    icon: 'error',
+                    confirmButtonText: '确定'
+                });
+            }
             // 从响应中提取accessToken和refreshToken
             const newAccessToken = resp.data.data.accessToken;
             const newRefreshToken = resp.data.data.refreshToken;

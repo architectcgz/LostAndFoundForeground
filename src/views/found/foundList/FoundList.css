@@ -62,8 +62,14 @@ button:hover {
   align-items: center;
   border-radius: 5px;
   color: #000; /* Ensure text color is visible on light background */
+  cursor: pointer; /* Change cursor to pointer to indicate clickable */
+  transition: transform 0.2s, box-shadow 0.2s; /* Add transition for smooth effect */
 }
-
+.item:hover {
+  transform: scale(1.05); /* Slightly enlarge the item */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+  background-color: #f0f0f0; /* Optional: change background color */
+}
 .item img {
   width: 100px;
   height: 100px;
@@ -79,6 +85,7 @@ button:hover {
 .item-details p {
   color: #666;
   font-size: 0.9em;
+  margin-bottom: 0;
 }
 
 .register-lost-item {

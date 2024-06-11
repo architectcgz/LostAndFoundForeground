@@ -14,11 +14,12 @@
 
         <!-- 失物列表 -->
         <div id="item-list" class="items-grid">
-          <div v-for="item in paginatedItems" :key="item.name" class="item">
+          <div v-for="item in paginatedItems" :key="item.name" class="item" @click="goToDetail('lost',item.id)">
             <img :src="item.image" alt="失物图片">
             <div class="item-details">
               <h4>{{ item.name }}</h4>
-              <p>丢失时间：{{ item.foundTime }}</p>
+              <p>丢失时间：{{ item.lostTime }}</p>
+              <p>创建时间:{{item.createTime}}</p>
               <p>描述：{{ item.description }}</p>
             </div>
           </div>
@@ -32,18 +33,7 @@
           <button @click="changePage('next')" :disabled="currentPage === totalPages">下一页</button>
         </div>
       </div>
-      <div v-if="showRegisterForm" class="register-lost-item">
-        <!-- 登记失物表单 -->
-        <form @submit.prevent="registerLostItem">
-          <label for="name">物品名称</label>
-          <input type="text" id="name" v-model="newItem.name" required>
-          <label for="date">拾取日期</label>
-          <input type="date" id="date" v-model="newItem.date" required>
-          <label for="description">描述</label>
-          <textarea id="description" v-model="newItem.description" required></textarea>
-          <input type="submit" value="提交">
-        </form>
-      </div>
+
     </main>
     <Footer style="bottom: 0"/>
   </div>

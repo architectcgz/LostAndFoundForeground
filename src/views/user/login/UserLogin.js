@@ -3,6 +3,8 @@ import {baseBackgroundUrl} from "@/constants/globalConstants.js";
 import axios from "axios";
 import {useUserStore} from "@/stores/index.js";
 import Navbar from "@/components/Navbar.vue";
+import {getUserInfo} from "@/views/js/GetUserInfo.js";
+import router from "@/router/index.js";
 
 
 export default {
@@ -57,27 +59,9 @@ export default {
                     } else {
                         if (data.data.accessToken && data.data.refreshToken) {
                             console.log(data.data.refreshToken);
-                            const userInfoResponse = await axios.get(`${baseBackgroundUrl}/user/info`, {
-                                headers: {
-                                    'Authorization': `Bearer ${data.data.accessToken}`,
-                                    'Content-Type': 'application/json'
-                                }
-                            });
-
-                            const userInfo = userInfoResponse.data;
-                            console.log(userInfo);
-                            if (userInfo.code === 200) {
-                                //保存到Vuex,供其他页面使用,同时保存到localStorage
-                                //这个函数已经有了保存到localStorage的逻辑
-                                const userStore = useUserStore()
-                                userStore.login(userInfo.data, data.data.accessToken, data.data.refreshToken);
-                                window.location.href = '/';
-                                console.log('Success:', data);
-                                console.log('User Info:', userInfo);
-                            } else {
-                                this.submitMessage = userInfo.message || 'Failed to fetch user info';
-                                console.log(userInfo.message);
-                            }
+                            useUserStore().setToken(data.data.accessToken,data.data.refreshToken);
+                            await getUserInfo();
+                            await router.push("/");
                         }
                     }
                 } catch (error) {

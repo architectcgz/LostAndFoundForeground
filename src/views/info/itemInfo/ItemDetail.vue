@@ -3,14 +3,14 @@
     <Navbar/>
     <span class="main-container vw-100">
       <ul>
-        <li v-for="item in items" :key="item.id" class="item-card">
+        <li class="item-card">
           <div class="item-image">
             <img :src="item.image" alt="物品图片" />
           </div>
           <div class="item-info">
             <h2>{{ item.name }}</h2>
             <div class="info-group">
-              <p><strong>认领次数:</strong> {{ item.claimed }}</p>
+              <p><strong>是否认领/找到:</strong> {{ item.claimed }}</p>
               <p><strong>发现地点:</strong> {{ item.foundLocation }}</p>
               <p><strong>发现时间:</strong> {{ item.foundTime }}</p>
               <p><strong>描述:</strong> {{ item.description }}</p>
@@ -25,40 +25,66 @@
 </template>
 
 <script>
-import Axios from 'axios'; // 引入Axios库
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import axiosClient from "@/axios.js";
+import {useRoute} from "vue-router";
+
+
+
 
 export default {
   name: 'ItemDetails',
   components: { Footer, Navbar }, // 注册组件
   data() {
     return {
-      items: [] // 初始数据为空数组
+      dataSrc:'',
+      itemId:null,
+      item: null // 初始数据为空
     };
   },
   created() {
+    const route = useRoute();
+    this.itemId = route.params.id;
+    this.dataSrc = route.params.src;
     this.fetchItems(); // 组件创建时调用fetchItems方法
   },
   methods: {
     fetchItems() {
-      Axios.get('') // 从你的API URL处获取数据
+      axiosClient.get(`/${this.dataSrc}/item-detail?id=${this.itemId}`)
           .then(response => {
-            if (response.data.code === 200) {
+            const data = response.data;
+            console.log(data)
+            if (data.code === 200) {
               // 检查响应码是否为200
-              this.items = [response.data.data].map(item => ({
-                id: item.id,
-                name: item.name,
-                claimed: item.founded,
-                image: item.image,
-                foundLocation: item.lostLocation,
-                foundTime: item.lostTime,
-                description: item.description,
-                phone: item.phone
-                // 根据你的实际API调整键名
-              }));
+              if(this.dataSrc==='lost'){
+                this.item = {
+                  id: data.data.id,
+                  name: data.data.name,
+                  claimed: data.data.founded===0?'已找到':'尚未找到',
+                  image: data.data.image,
+                  foundLocation: data.data.lostLocation,
+                  foundTime: data.data.lostTime,
+                  description: data.data.description,
+                  phone: data.data.phone,
+                  createTime: data.data.createTime,
+                  updateTime: data.data.updateTime,
+                };
+              }else{
+                this.item = {
+                  name: data.data.name,
+                  claimed: data.data.founded===0?'已认领':'尚未认领',
+                  image: data.data.image,
+                  foundLocation: data.data.lostLocation,
+                  foundTime: data.data.foundTime,
+                  description: data.data.description,
+                  phone: data.data.phone,
+                  createTime: data.data.createTime,
+                  updateTime: data.data.updateTime,
+                };
+              }
+
             } else {
-              // 如果不是200，弹出错误信息
               alert('数据加载失败：' + response.data.message);
             }
           })

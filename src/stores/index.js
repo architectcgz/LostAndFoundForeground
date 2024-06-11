@@ -18,8 +18,7 @@ export const useUserStore = defineStore('userInfo', {
         setToken(accessToken, refreshToken){
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
-        }
-        ,
+        },
         login(user, accessToken, refreshToken) {
             this.user = user;
             this.accessToken = accessToken;
@@ -30,6 +29,9 @@ export const useUserStore = defineStore('userInfo', {
             this.accessToken = '';
             this.refreshToken = '';
         },
+        updateUserInfo(user){
+            this.user = user;
+        }
     },
 });
 
