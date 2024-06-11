@@ -5,16 +5,16 @@
       <ul>
         <li class="item-card">
           <div class="item-image">
-            <img :src="item.image" alt="物品图片" />
+            <img :src="this.item.image" alt="物品图片" />
           </div>
           <div class="item-info">
             <h2>{{ item.name }}</h2>
             <div class="info-group">
-              <p><strong>是否认领/找到:</strong> {{ item.claimed }}</p>
-              <p><strong>发现地点:</strong> {{ item.foundLocation }}</p>
-              <p><strong>发现时间:</strong> {{ item.foundTime }}</p>
-              <p><strong>描述:</strong> {{ item.description }}</p>
-              <p><strong>联系电话:</strong> {{ item.phone }}</p>
+              <p><strong>是否认领/找到:</strong> {{ this.item.claimed }}</p>
+              <p><strong>发现地点:</strong> {{ this.item.foundLocation }}</p>
+              <p><strong>发现时间:</strong> {{ this.item.foundTime }}</p>
+              <p><strong>描述:</strong> {{ this.item.description }}</p>
+              <p><strong>联系电话:</strong> {{ this.item.phone }}</p>
             </div>
           </div>
         </li>
